@@ -1,13 +1,13 @@
-<div x-data="{show_create_form: @entangle('show')}">
+<div x-data="{show_edit_form: @entangle('show')}">
 
-    <div x-show="show_create_form" class="fixed inset-y-0 right-0 w-full bg-black z-50 bg-opacity-25" style="display: none">
+    <div x-show="show_edit_form" class="fixed inset-y-0 right-0 w-full bg-black z-50 bg-opacity-25" style="display: none">
         <div class="flex flex-col w-full h-full max-w-3xl bg-white">
 
             <header class="flex items-center justify-between px-6 py-4 space-x-4 overflow-hidden rounded-b-lg bg-gray-50">
                 <h1 class="flex-grow text-xl font-semibold tracking-wide text-gray-700">
-                    إضافة مسخر جديد
+                    {{ __('تعديل المسخر') }}
                 </h1>
-                <button wire:click="closeCreateForm" class="block px-2 py-1 border border-transparent rounded-lg hover:border-gray-300">
+                <button wire:click="closeEditForm" class="block px-2 py-1 border border-transparent rounded-lg hover:border-gray-300">
                     <svg class="text-gray-500 w-4 h-6" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 352 512"><path d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"/></svg>
                 </button>
             </header>

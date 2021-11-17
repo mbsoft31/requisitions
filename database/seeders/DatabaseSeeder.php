@@ -33,6 +33,11 @@ class DatabaseSeeder extends Seeder
             ->count(10)
             ->has(
                 Requisition::factory()
+                    ->count(2)
+                    ->sequence(
+                        ["type" => Requisition::$PREPARATION],
+                        ["type" => Requisition::$MANAGEMENT],
+                    )
             )
             ->for($user)
             ->create();

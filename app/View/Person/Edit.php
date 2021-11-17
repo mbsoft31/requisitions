@@ -5,12 +5,11 @@ namespace App\View\Person;
 use App\Models\Person;
 use Livewire\Component;
 
-class Create extends Component
+class Edit extends Component
 {
-
     protected $listeners = [
-        "openCreateForm" => "openCreateForm",
-        "closeCreateForm" => "closeCreateForm",
+        "openEditForm" => "openEditForm",
+        "closeEditForm" => "closeEditForm",
     ];
 
     public $ranks;
@@ -19,20 +18,15 @@ class Create extends Component
 
     public $show = false;
 
-    public function openCreateForm()
+    public function openEditForm(Person $person)
     {
         $this->show = true;
+        $this->state = $person->withoutRelations()->toArray();
     }
 
-    public function closeCreateForm()
+    public function closeEditForm()
     {
         $this->show = false;
-    }
-
-    public function mount()
-    {
-        $this->ranks = Person::$ranks;
-
         $this->state = [
             "first_name" => "",
             "last_name" => "",
@@ -45,8 +39,14 @@ class Create extends Component
         ];
     }
 
+    public function mount()
+    {
+        $this->ranks = Person::$ranks;
+        $this->state = [];
+    }
+
     public function render()
     {
-        return view('person.create');
+        return view('person.edit');
     }
 }

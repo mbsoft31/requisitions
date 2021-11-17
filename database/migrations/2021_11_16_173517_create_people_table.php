@@ -21,7 +21,7 @@ class CreatePeopleTable extends Migration
             $table->string('original_job')->nullable();
             $table->date('birthdate');
             $table->date('requisition_date');
-            $table->string('rank');
+            $table->integer('rank');
             // الهيئة المستخدمة
             $table->string('commission',50);
             $table->foreignId('user_id')->default(0)->onDelete('set default');

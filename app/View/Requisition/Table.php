@@ -8,12 +8,14 @@ use Livewire\WithPagination;
 
 class Table extends Component
 {
-
     use WithPagination;
+
+    protected $listeners = [
+        "pageChanged" => '$refresh'
+    ];
 
     public function render()
     {
-        $requisitions = Person::paginate(6);
-        return view('requisition.table', compact("requisitions"));
+        return view('requisition.table', ["requisitions" => Person::paginate(5)]);
     }
 }
