@@ -3,7 +3,7 @@
     <div x-show="show_edit_form" class="fixed inset-y-0 right-0 w-full bg-black z-50 bg-opacity-25" style="display: none">
         <div class="flex flex-col w-full h-full max-w-3xl bg-white">
 
-            <header class="flex items-center justify-between px-6 py-4 space-x-4 overflow-hidden rounded-b-lg bg-gray-50">
+            <header class="flex items-center justify-between px-6 py-2 space-x-4 overflow-hidden rounded-b-lg bg-gray-50">
                 <h1 class="flex-grow text-xl font-semibold tracking-wide text-gray-700">
                     {{ __('تعديل المسخر') }}
                 </h1>
@@ -12,12 +12,12 @@
                 </button>
             </header>
 
-            <main class="flex-grow">
+            <main class="flex-grow divide-y overflow-y-scroll">
                 <form action="#" method="post" class="f">
                     @csrf
                     <div class="flex flex-col divide-y">
 
-                        <div class="grid grid-cols-12 gap-x-4 gap-y-6 px-6 py-8">
+                        <div class="grid grid-cols-12 gap-x-4 gap-y-6 px-6 py-6">
 
                             <div class="col-span-6 space-y-2">
                                 <label class="block font-semibold">
@@ -119,6 +119,48 @@
                         </div>--}}
                     </div>
                 </form>
+                @isset($person)
+                    <div>
+                        <div class="px-6 flex flex-col">
+                            @foreach($person->requisitions as $requisition)
+                                <div class="mt-2 border rounded-lg">
+                                    <div class="flex items-center px-6 py-2 border-b">
+                                        <div class="flex-grow text-lg font-semibold tracking-wide text-gray-900">
+                                            @switch($requisition->type)
+                                                @case(\App\Models\Requisition::$PREPARATION)
+                                                {{ __('تسخيرة عملية التحضير') }}
+                                                @break
+                                                @case(\App\Models\Requisition::$MANAGEMENT)
+                                                {{ __('تسخيرة عملية التسيير') }}
+                                                @break
+                                            @endswitch
+                                        </div>
+                                        <div class="flex gap-2">
+                                            <button class="px-2 py-1.5 text-green-500 border border-transparent rounded-lg hover:text-green-700 hover:border-green-700">
+                                                {{ __('تعديل التسخيرة') }}
+                                            </button>
+                                            <button class="px-2 py-1.5 text-red-500 border border-transparent rounded-lg hover:text-red-700 hover:border-red-700">
+                                                {{ __('إلغاء التسخيرة') }}
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center px-6 py-2">
+                                        <div class="flex-grow">
+                                            <div>
+                                                <p class=" font-semibold tracking-wide text-gray-700">{{ __('مسخر على مستوى') }}</p>
+                                                <p class="text-gray-600">{{ $requisition->destination }}</p>
+                                            </div>
+                                            <div>
+                                                <p class=" font-semibold tracking-wide text-gray-700">{{ __('مهمة التسخير') }}</p>
+                                                <p class="text-gray-600">{{ $requisition->authorized_tasks }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                @endisset
             </main>
 
             <footer class="flex items-center justify-end px-6 py-4 bg-gray-50">

@@ -1,13 +1,13 @@
 <div>
     <section class="">
         <header class="divide-y">
-            <div class="px-4 sm:px-6 py-4 sm:rounded-lg">
+            <div class="px-4 sm:px-6 py-8 sm:rounded-lg">
                 <div class="flex items-center justify-between">
                     <h1 class="text-2xl font-semibold tracking-wide text-gray-900">
                         {{ __('قائمة التسخيرات') }}
                     </h1>
                     <button wire:click="$emit('openCreateForm')" class="px-4 py-2 text-gray-50 bg-green-600 rounded-md hover:text-white hover:bg-green-700">
-                        إضافة مسخر جديد
+                        {{ __('إضافة مسخر جديد') }}
                     </button>
                 </div>
             </div>

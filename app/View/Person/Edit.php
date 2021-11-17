@@ -12,16 +12,17 @@ class Edit extends Component
         "closeEditForm" => "closeEditForm",
     ];
 
-    public $ranks;
-
     public $state;
+    public $person;
 
-    public $show = false;
+    public $show = true;
+    public $ranks;
 
     public function openEditForm(Person $person)
     {
         $this->show = true;
         $this->state = $person->withoutRelations()->toArray();
+        $this->person = $person;
     }
 
     public function closeEditForm()
@@ -37,12 +38,14 @@ class Edit extends Component
             "rank" => "",
             "commission" => "",
         ];
+        $this->person = null;
     }
 
     public function mount()
     {
         $this->ranks = Person::$ranks;
         $this->state = [];
+        $this->openEditForm(Person::first());
     }
 
     public function render()
