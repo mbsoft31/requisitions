@@ -11,7 +11,10 @@ class Table extends Component
     use WithPagination;
 
     protected $listeners = [
-        "pageChanged" => '$refresh'
+        "personUpdated" => '$refresh',
+        "personCreated" => '$refresh',
+        "requisitionUpdated" => '$refresh',
+        "requisitionDeleted" => '$refresh',
     ];
 
     public function render()

@@ -122,49 +122,29 @@
                 @isset($person)
                     <div>
                         <div class="px-6 flex flex-col">
-                            @foreach($person->requisitions as $requisition)
-                                <div class="mt-2 border rounded-lg">
-                                    <div class="flex items-center px-6 py-2 border-b">
-                                        <div class="flex-grow text-lg font-semibold tracking-wide text-gray-900">
-                                            @switch($requisition->type)
-                                                @case(\App\Models\Requisition::$PREPARATION)
-                                                {{ __('تسخيرة عملية التحضير') }}
-                                                @break
-                                                @case(\App\Models\Requisition::$MANAGEMENT)
-                                                {{ __('تسخيرة عملية التسيير') }}
-                                                @break
-                                            @endswitch
-                                        </div>
-                                        <div class="flex gap-2">
-                                            <button class="px-2 py-1.5 text-green-500 border border-transparent rounded-lg hover:text-green-700 hover:border-green-700">
-                                                {{ __('تعديل التسخيرة') }}
-                                            </button>
-                                            <button class="px-2 py-1.5 text-red-500 border border-transparent rounded-lg hover:text-red-700 hover:border-red-700">
-                                                {{ __('إلغاء التسخيرة') }}
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div class="flex items-center px-6 py-2">
-                                        <div class="flex-grow">
-                                            <div>
-                                                <p class=" font-semibold tracking-wide text-gray-700">{{ __('مسخر على مستوى') }}</p>
-                                                <p class="text-gray-600">{{ $requisition->destination }}</p>
-                                            </div>
-                                            <div>
-                                                <p class=" font-semibold tracking-wide text-gray-700">{{ __('مهمة التسخير') }}</p>
-                                                <p class="text-gray-600">{{ $requisition->authorized_tasks }}</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                            @foreach($types as $type=>$requisition)
+                                @if($person->$requisition)
+                                    @livewire("requisition.edit", ["requisition" => $person->$requisition])
+                                @else
+                                    @livewire("requisition.create", ["type" => $type,'person'=>$person])
+                                @endif
                             @endforeach
                         </div>
                     </div>
                 @endisset
+{{--                @isset($person)--}}
+{{--                    <div>--}}
+{{--                        <div class="px-6 flex flex-col">--}}
+{{--                            @foreach($person->requisitions as $requisition)--}}
+{{--                                @livewire("requisition.edit", ["requisition" => $requisition])--}}
+{{--                            @endforeach--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                @endisset--}}
             </main>
 
             <footer class="flex items-center justify-end px-6 py-4 bg-gray-50">
-                <button type="submit" class="px-4 py-2 bg-gray-600 border rounded-md text-gray-50 hover:text-white hover:bg-gray-700">
+                <button wire:click="save" type="button" class="px-4 py-2 bg-gray-600 border rounded-md text-gray-50 hover:text-white hover:bg-gray-700">
                     حفظ المعلومات
                 </button>
             </footer>

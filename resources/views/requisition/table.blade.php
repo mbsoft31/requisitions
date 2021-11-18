@@ -23,7 +23,7 @@
                     </div>
 
                 </div>
-                <div class="col-span-4 px-4 sm:px-6">
+                <div class="col-span-4">
                     {{ $requisitions->links() }}
                 </div>
             </div>
@@ -87,9 +87,11 @@
                                                 {{$person->requisition_date}}
                                             </div>
                                         </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
+                                        <td class="px-6  py-4 ">
                                             <div class="text-sm text-gray-900">
-                                                {{$person->rank}}
+{{--                                                todo : check this modification . class of the td tag : whitespace-nowrap --}}
+{{--                                                {{$person->rank}}--}}
+                                                {{\App\Models\Person::$ranks[$person->rank]}}
                                             </div>
                                         </td>
                                         <td  class="px-6 py-4 whitespace-nowrap">

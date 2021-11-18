@@ -13,7 +13,7 @@
             </header>
 
             <main class="flex-grow">
-                <form action="#" method="post" class="f">
+                <form action="#" method="post" class="">
                     @csrf
                     <div class="flex flex-col divide-y">
 
@@ -119,10 +119,19 @@
                         </div>--}}
                     </div>
                 </form>
+                @isset($person)
+                    <div>
+                        <div class="px-6 flex flex-col">
+                            @foreach($types as $typeid=>$type)
+                                    @livewire("requisition.create", ["requisitionType" => $typeid,'person'=>$person])
+                            @endforeach
+                        </div>
+                    </div>
+                @endisset
             </main>
 
             <footer class="flex items-center justify-end px-6 py-4 bg-gray-50">
-                <button type="submit" class="px-4 py-2 bg-gray-600 border rounded-md text-gray-50 hover:text-white hover:bg-gray-700">
+                <button wire:click="store" type="button" class="px-4 py-2 bg-gray-600 border rounded-md text-gray-50 hover:text-white hover:bg-gray-700">
                     حفظ المعلومات
                 </button>
             </footer>
