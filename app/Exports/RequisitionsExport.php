@@ -2,14 +2,15 @@
 
 namespace App\Exports;
 
-use App\Models\Requisistions;
 use App\Models\Requisition;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithCustomStartCell;
+use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
+use Maatwebsite\Excel\Events\AfterSheet;
 
 class RequisitionsExport implements
     FromCollection,
@@ -17,7 +18,8 @@ class RequisitionsExport implements
     WithHeadings,
     WithCustomStartCell,
     WithMapping,
-    ShouldAutoSize
+    ShouldAutoSize,
+    WithEvents
 {
     /**
     * @return \Illuminate\Support\Collection
@@ -54,20 +56,19 @@ class RequisitionsExport implements
 
     public function map($row): array
     {
-        dd($row);
         $data = [
             $row->id,
-            $row->personn->requisition_date,
-            $row->personn->first_name,
-            $row->personn->last_name,
-            $row->personn->date_of_birth,
-            $row->personn->location_of_birth,
-            $row->personn->original_job,
-            $row->personn->rank,
-            $row->personn->commission,
-            $row->personn->get_category(),
-            $row->get_type(),
-            $row->requisition_destination,
+            $row->person->requisition_date,
+            $row->person->first_name,
+            $row->person->last_name,
+            $row->person->birthdate,
+            $row->person->location_of_birth,
+            $row->person->birth_place,
+            $row->person->rank,
+            $row->person->commission,
+            'صنف',
+            Requisition::$types[$row->type],
+            $row->destination,
             $row->authorized_tasks,
         ];
         return $data;
@@ -76,5 +77,14 @@ class RequisitionsExport implements
     public function startCell(): string
     {
         return "A1";
+    }
+
+    public function registerEvents(): array
+    {
+        return [
+            AfterSheet::class => function(AfterSheet $event) {
+                $event->sheet->getDelegate()->setRightToLeft(true);
+            },
+        ];
     }
 }
