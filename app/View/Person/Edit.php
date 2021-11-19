@@ -34,9 +34,9 @@ class Edit extends Component
 
     public function addRequisition($inputs,CreateRequisition $creator)
     {
-        if (!$this->person)return
         $creator->create($inputs,$inputs['type'],$this->person);
-        $this->person->refresh();
+        if ($this->person)
+            $this->person->refresh();
         $this->emit('requisitionUpdated');
     }
 

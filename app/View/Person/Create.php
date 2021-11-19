@@ -47,6 +47,10 @@ class Create extends Component
             "rank" => "",
             "commission" => "",
         ];
+        $this->requisitions = [
+            Requisition::$PREPARATION=>null,
+            Requisition::$MANAGEMENT=>null
+        ];
     }
     public function addRequisition($inputs)
     {
@@ -59,6 +63,7 @@ class Create extends Component
         foreach ($this->requisitions as $type=>$requisition) {
             $requisitionCreator->create($requisition,$type , $this->person);
         }
+        $this->emit('personCreated');
         $this->closeCreateForm();
     }
 

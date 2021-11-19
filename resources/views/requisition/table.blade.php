@@ -129,7 +129,7 @@
                                                     <a href="#" class="px-4 hover:bg-green-700 hover:border-green-700">
                                                         <span>التحضير</span>
                                                     </a>
-                                                    <a href="#" class="px-2 hover:bg-red-500 hover:border-red-500">
+                                                    <a wire:click="deleteRequisition({{$person->preparation_requisition->id}})" class="px-2 hover:bg-red-500 hover:border-red-500">
                                                         <span>&times;</span>
                                                     </a>
                                                 @endif
@@ -140,7 +140,7 @@
                                                     <a href="#" class="px-4 hover:bg-green-700 hover:border-green-700">
                                                         <span>التسيير</span>
                                                     </a>
-                                                    <a href="#" class="px-2 hover:bg-red-500 hover:border-red-500">
+                                                    <a wire:click="deleteRequisition({{$person->management_requisition->id}})" class="px-2 hover:bg-red-500 hover:border-red-500">
                                                         <span>&times;</span>
                                                     </a>
                                                 @endif
