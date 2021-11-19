@@ -2,6 +2,7 @@
 
 namespace App\Exports;
 
+use App\Models\Person;
 use App\Models\Requisition;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
@@ -66,7 +67,7 @@ class RequisitionsExport implements
             $row->person->birth_place,
             $row->person->rank,
             $row->person->commission,
-            'صنف',
+            Person::$classes[$row->person->rank],
             Requisition::$types[$row->type],
             $row->destination,
             $row->authorized_tasks,
