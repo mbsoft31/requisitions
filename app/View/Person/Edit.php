@@ -2,6 +2,7 @@
 
 namespace App\View\Person;
 
+use App\Contracts\Requisition\CreateRequisition;
 use App\Models\Person;
 use App\Models\Requisition;
 use Livewire\Component;
@@ -12,7 +13,8 @@ class Edit extends Component
         "openEditForm" => "openEditForm",
         "closeEditForm" => "closeEditForm",
         "requisitionDeleted" => '$refresh',
-        "requisitionAdded" => 'requisitionAdded',
+        "requisitionUpdated" => '$refresh',
+        "addRequisition" => 'addRequisition',
         "deleteRequisition" => "deleteRequisition",
     ];
 
@@ -30,10 +32,12 @@ class Edit extends Component
         $this->person = $person;
     }
 
-    public function requisitionAdded()
+    public function addRequisition($inputs,CreateRequisition $creator)
     {
-        return
+        if (!$this->person)return
+        $creator->create($inputs,$inputs['type'],$this->person);
         $this->person->refresh();
+        $this->emit('requisitionUpdated');
     }
 
     public function closeEditForm()
@@ -56,7 +60,8 @@ class Edit extends Component
     {
         $requisition->delete();
         $this->person->refresh();
-//        $this->emit("requisitionDeleted");
+//        dd($requisition);
+        $this->emit("requisitionDeleted");
     }
 
 

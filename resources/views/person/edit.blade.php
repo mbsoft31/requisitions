@@ -124,9 +124,9 @@
                         <div class="px-6 flex flex-col">
                             @foreach($types as $type=>$requisition)
                                 @if($person->$requisition)
-                                    @livewire("requisition.edit", ["requisition" => $person->$requisition])
+                                    @livewire("requisition.edit", ["requisition" => $person->$requisition], key($type.'edit'))
                                 @else
-                                    @livewire("requisition.create", ["type" => $type,'person'=>$person])
+                                    @livewire("requisition.create", ["type" => $type], key($type.'create'))
                                 @endif
                             @endforeach
                         </div>

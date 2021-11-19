@@ -119,15 +119,17 @@
                         </div>--}}
                     </div>
                 </form>
-                @isset($person)
-                    <div>
-                        <div class="px-6 flex flex-col">
-                            @foreach($types as $typeid=>$type)
-                                    @livewire("requisition.create", ["requisitionType" => $typeid,'person'=>$person])
-                            @endforeach
-                        </div>
+                <div>
+                    <div class="px-6 flex flex-col">
+                        @foreach($requisitions as $type=>$requisition)
+                            @if($requisition)
+                                @livewire("requisition.edit", ["requisition" => $requisition], key($type.'edit'))
+                            @else
+                                @livewire("requisition.create", ["type" => $type], key($type.'create'))
+                            @endif
+                        @endforeach
                     </div>
-                @endisset
+                </div>
             </main>
 
             <footer class="flex items-center justify-end px-6 py-4 bg-gray-50">

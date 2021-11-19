@@ -11,16 +11,13 @@ class Create extends Component
     public $state;
     public $type ;
     public $creating =false;
-    public $person ;
-    public function mount($type,$person)
+    public function mount($type)
     {
         $this->type = $type;
-        $this->person = $person;
         $this->state = [
             "type"=>$type,
             "destination" => "",
             "authorized_tasks" => "",
-            "person_id" => $person->id,
         ];
     }
 
@@ -35,12 +32,10 @@ class Create extends Component
     }
 
 
-    public function save(CreateRequisition $creator)
+    public function save()
     {
-        if ( ! ($this->person) ) return;
-        $creator->create($this->state,$this->type , $this->person);
         $this->closeCreateRequisition();
-        $this->emit("requisitionAdded");
+        $this->emit("addRequisition",$this->state);
     }
 
     public function render()

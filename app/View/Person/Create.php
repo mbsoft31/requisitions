@@ -3,6 +3,7 @@
 namespace App\View\Person;
 
 use App\Contracts\Person\CreatePerson;
+use App\Contracts\Requisition\CreateRequisition;
 use App\Models\Person;
 use App\Models\Requisition;
 use Livewire\Component;
@@ -14,6 +15,7 @@ class Create extends Component
         "openCreateForm" => "openCreateForm",
         "closeCreateForm" => "closeCreateForm",
         "requisitionUpdated" => '$refresh',
+        "addRequisition" => 'addRequisition',
         "requisitionDeleted" => '$refresh',
         'saved'=>'$refresh'
     ];
@@ -24,6 +26,8 @@ class Create extends Component
 
     public $show = false;
     public $person ;
+    public $requisitions;
+    public $types;
 
     public function openCreateForm()
     {
@@ -44,11 +48,18 @@ class Create extends Component
             "commission" => "",
         ];
     }
+    public function addRequisition($inputs)
+    {
+        $this->requisitions[$inputs['type']] = new Requisition($inputs);
+    }
 
-    public function store(CreatePerson $creator)
+    public function store(CreatePerson $creator,CreateRequisition $requisitionCreator)
     {
         $this->person = $creator->create($this->state);
-//        $this->closeCreateForm();
+        foreach ($this->requisitions as $type=>$requisition) {
+            $requisitionCreator->create($requisition,$type , $this->person);
+        }
+        $this->closeCreateForm();
     }
 
     public function mount()
@@ -67,6 +78,10 @@ class Create extends Component
             "requisition_date" => "",
             "rank" => "",
             "commission" => "",
+        ];
+        $this->requisitions = [
+            Requisition::$PREPARATION=>null,
+            Requisition::$MANAGEMENT=>null
         ];
     }
 
