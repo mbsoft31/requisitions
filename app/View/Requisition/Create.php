@@ -9,8 +9,9 @@ use Livewire\Component;
 class Create extends Component
 {
     public $state;
-    public $type ;
-    public $creating =false;
+    public $type;
+    public $creating = false;
+
     public function mount($type)
     {
         $this->type = $type;
