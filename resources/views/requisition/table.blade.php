@@ -157,7 +157,7 @@
                                     <tr>
                                         <td colspan="7">
                                             <div class="px-6 py-8 text-xl font-semibold text-gray-700">
-                                                لم يتم اضافة تسخيرات بعد
+                                                التسخيرات غير موجودة
                                             </div>
                                         </td>
                                     </tr>

@@ -6,6 +6,7 @@ use App\Models\Person;
 use App\Models\Requisition;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
 class DatabaseSeeder extends Seeder
@@ -25,9 +26,10 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $role = Role::create(["name" => "admin"]);
-
+        $permission = Permission::create(['name' => 'see requisitions']);
+        $role->givePermissionTo('see requisitions');
         $user->assignRole("admin");
-
+        if ($user->can('see requisitions')) dump('can see requisitions ');
 
         Person::factory()
             ->count(10)
