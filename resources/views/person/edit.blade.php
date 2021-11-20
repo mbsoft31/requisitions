@@ -80,6 +80,43 @@
                             </div>
 
                         </div>
+
+                        {{--<div class="shadow-lg my-2 ring-gray-100 p-2 collapse w-full border bg-white focus:bg-red-200 rounded-box border-base-300 collapse-plus">
+                            <input type="checkbox" checked>
+                            <div class="text-2xl text-right collapse-title ">
+                                تسخيرة التحضير
+                            </div>
+                            <div class="collapse-content">
+                                <div class="flex items-center space-x-2 gap-x-2">
+                                    <label  class="flex-row-reverse justify-end input-group ">
+                                        <input name="preparation[authorized_tasks]" class="flex-grow input input-bordered" type="text"  >
+                                        <span class="flex justify-center font-semibold text-white bg-indigo-500 w-36 whitespace-nowrap">المهام الموكلة إليه</span>
+                                    </label>
+                                    <label  class="flex-row-reverse justify-end input-group ">
+                                        <input name="preparation[requisition_destination]" class="flex-grow input input-bordered" type="text" id="first_name"  >
+                                        <span class="flex justify-center font-semibold text-white bg-indigo-500 w-36 whitespace-nowrap">الجهة المسخر فيها</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="shadow-lg my-2 ring-gray-100 p-2 collapse w-full border bg-white focus:bg-red-200 rounded-box border-base-300 collapse-plus">
+                            <input type="checkbox" checked>
+                            <div class="text-2xl text-right collapse-title ">
+                                تسخيرة التسيير
+                            </div>
+                            <div class="collapse-content">
+                                <div class="flex items-center space-x-2 gap-x-2">
+                                    <label  class="flex-row-reverse justify-end input-group ">
+                                        <input name="management[authorized_tasks]" class="flex-grow input input-bordered" type="text" id="last_name"  >
+                                        <span class="flex justify-center font-semibold text-white bg-indigo-500 w-36 whitespace-nowrap">المهام الموكلة إليه</span>
+                                    </label>
+                                    <label  class="flex-row-reverse justify-end input-group ">
+                                        <input name="management[requisition_destination]" class="flex-grow input input-bordered" type="text" id="first_name"  >
+                                        <span class="flex justify-center font-semibold text-white bg-indigo-500 w-36 whitespace-nowrap">الجهة المسخر فيها</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>--}}
                     </div>
                 </form>
                 @isset($person)
@@ -95,6 +132,15 @@
                         </div>
                     </div>
                 @endisset
+{{--                @isset($person)--}}
+{{--                    <div>--}}
+{{--                        <div class="px-6 flex flex-col">--}}
+{{--                            @foreach($person->requisitions as $requisition)--}}
+{{--                                @livewire("requisition.edit", ["requisition" => $requisition])--}}
+{{--                            @endforeach--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                @endisset--}}
             </main>
 
             <footer class="flex items-center justify-end px-6 py-4 bg-gray-50">

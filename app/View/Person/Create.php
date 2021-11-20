@@ -61,7 +61,7 @@ class Create extends Component
     {
         $this->person = $creator->create($this->state);
         foreach ($this->requisitions as $type=>$requisition) {
-            $requisitionCreator->create($this->state, $requisition , $this->person);
+            $requisitionCreator->create($requisition,$type , $this->person);
         }
         $this->emit('personCreated');
         $this->closeCreateForm();
