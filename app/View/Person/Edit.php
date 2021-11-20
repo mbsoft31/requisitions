@@ -74,6 +74,7 @@ class Edit extends Component
         $this->person->refresh();
         $this->state = $this->person->withoutRelations()->toArray();
         $this->closeEditForm();
+        $this->emit('personUpdated');
     }
 
     public function mount()
