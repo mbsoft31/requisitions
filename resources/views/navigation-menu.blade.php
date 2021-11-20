@@ -21,10 +21,13 @@
                         </x-jet-nav-link>
                     @can('export/import')
                         <x-jet-nav-link wire:click="$emit('exportAllToExcel')" >
-                            {{ __('Download requisitions') }}
+                            {{ __('Download Excel File') }}
                         </x-jet-nav-link>
                         <x-jet-nav-link wire:click="$emit('downloadDocument')" >
                             {{ __('Download all to Word') }}
+                        </x-jet-nav-link>
+                        <x-jet-nav-link wire:click="$emit('importAllFromExcel')" >
+                            {{ __('Upload Excel File') }}
                         </x-jet-nav-link>
                     @endcan
                 </div>
