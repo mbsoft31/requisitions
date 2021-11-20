@@ -26,8 +26,10 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $role = Role::create(["name" => "admin"]);
-        $permission = Permission::create(['name' => 'see requisitions']);
+        Permission::findOrCreate('see requisitions');
+        Permission::findOrCreate( 'export/import');
         $role->givePermissionTo('see requisitions');
+        $role->givePermissionTo('export/import');
         $user->assignRole("admin");
         if ($user->can('see requisitions')) dump('can see requisitions ');
 

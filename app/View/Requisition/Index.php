@@ -23,11 +23,13 @@ class Index extends Component
 
     public function exportAllToExcel()
     {
+        if(\Auth::user()->cannot('export/import')) return ;
         return Excel::download(new RequisitionsExport,'users.xlsx');
     }
 
     public function downloadDocument(array $requisitionsIds = null)
     {
+        if(\Auth::user()->cannot('export/import')) return ;
         $templateProcessor = new TemplateProcessor(public_path('templates/req_template.docx'));
         $replacements = [];
         if ($requisitionsIds)

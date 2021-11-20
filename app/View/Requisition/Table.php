@@ -4,6 +4,7 @@ namespace App\View\Requisition;
 
 use App\Models\Person;
 use App\Models\Requisition;
+use Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -29,6 +30,10 @@ class Table extends Component
     public function render()
     {
         $query = Person::query();
+        if (Auth::user()->cannot('see requisitions'))
+            $query->whereHas('requisitions', function($q){
+                $q->where('person_id', Auth::id());
+            });
         if (strlen($this->search)>2){
             foreach($this->columns as $column){
                 $query->orWhere($column, 'LIKE', '%' . $this->search . '%');
