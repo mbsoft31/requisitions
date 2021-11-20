@@ -126,7 +126,7 @@
 
                                             <div class="inline-flex bg-green-600 text-white rounded-lg overflow-hidden">
                                                 @if($person->has_preparation)
-                                                    <a href="#" class="px-4 hover:bg-green-700 hover:border-green-700">
+                                                    <a wire:click="$emit('downloadDocument',[{{$person->preparation_requisition->id}}])" class="px-4 hover:bg-green-700 hover:border-green-700">
                                                         <span>التحضير</span>
                                                     </a>
                                                     <a wire:click="deleteRequisition({{$person->preparation_requisition->id}})" class="px-2 hover:bg-red-500 hover:border-red-500">
@@ -137,7 +137,7 @@
 
                                             <div class="inline-flex bg-green-600 text-white rounded-lg overflow-hidden">
                                                 @if($person->has_management)
-                                                    <a href="#" class="px-4 hover:bg-green-700 hover:border-green-700">
+                                                    <a wire:click="$emit('downloadDocument',[{{$person->management_requisition->id}}])" class="px-4 hover:bg-green-700 hover:border-green-700">
                                                         <span>التسيير</span>
                                                     </a>
                                                     <a wire:click="deleteRequisition({{$person->management_requisition->id}})" class="px-2 hover:bg-red-500 hover:border-red-500">

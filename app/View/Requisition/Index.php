@@ -30,18 +30,22 @@ class Index extends Component
     {
         $templateProcessor = new TemplateProcessor(public_path('templates/req_template.docx'));
         $replacements = [];
-//        $requisitions = Requisition::whereIn('id',$requisitionsIds)->get();
-        $requisitions = Requisition::all();
+        if ($requisitionsIds)
+            $requisitions = Requisition::whereIn('id',$requisitionsIds)->get();
+        else
+            $requisitions = Requisition::all();
+
         $requisitions->map(function ($requisition)use (&$replacements){
             $replacements[] = [
                 "id" => $requisition->id,
                 "requisition_date" => Carbon::now()->format('Y-m-d'),
-                "full_name" => $requisition->first_name. ' ' . $requisition->last_name,
+                "full_name" => $requisition->person->first_name. ' ' . $requisition->person->last_name,
                 "type" => Requisition::$types[$requisition->type],
                 "rank" => Person::$ranks[$requisition->person->rank],
                 "category" => Person::$classes[$requisition->person->rank],
             ];
         });
+//        dd($requisitions);
         $templateProcessor->cloneBlock('requisition_block', 0, true, false, $replacements);
         $templateProcessor->saveAs(public_path('templates/req_output.docx'));
         return response()->download(public_path('templates/req_output.docx'));

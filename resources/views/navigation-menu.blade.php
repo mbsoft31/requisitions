@@ -21,6 +21,9 @@
                     <x-jet-nav-link wire:click="$emit('exportAllToExcel')" >
                         {{ __('Download requisitions') }}
                     </x-jet-nav-link>
+                    <x-jet-nav-link wire:click="$emit('downloadDocument')" >
+                        {{ __('Download all to Word') }}
+                    </x-jet-nav-link>
                 </div>
             </div>
 
@@ -98,6 +101,9 @@
             </x-jet-responsive-nav-link>
             <x-jet-responsive-nav-link wire:click="$emit('exportAllToExcel')" >
                 {{ __('Download requisitions') }}
+            </x-jet-responsive-nav-link>
+            <x-jet-responsive-nav-link wire:click="$emit('downloadDocument')" >
+                {{ __('Download all to Word') }}
             </x-jet-responsive-nav-link>
         </div>
 
