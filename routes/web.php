@@ -4,11 +4,11 @@ use App\Contracts\Person\CreatePerson;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect(route('requisition.index'));
 });
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    return view('dashboard');
+    return redirect(route('requisition.index'));
 })->name('dashboard');
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
