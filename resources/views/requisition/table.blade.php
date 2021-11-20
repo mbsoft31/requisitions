@@ -19,7 +19,7 @@
                 <div class="col-span-4 px-4 sm:px-6">
 
                     <div>
-                        <input id="search" type="text" placeholder="{{ __('بحث') }}" class="w-full rounded-lg">
+                        <input wire:model.debounce.500ms="search" id="search" type="text" placeholder="{{ __('بحث') }}" class="w-full rounded-lg">
                     </div>
 
                 </div>
@@ -126,7 +126,7 @@
 
                                             <div class="inline-flex bg-green-600 text-white rounded-lg overflow-hidden">
                                                 @if($person->has_preparation)
-                                                    <a href="#" class="px-4 hover:bg-green-700 hover:border-green-700">
+                                                    <a wire:click="$emit('downloadDocument',[{{$person->preparation_requisition->id}}])" class="px-4 hover:bg-green-700 hover:border-green-700">
                                                         <span>التحضير</span>
                                                     </a>
                                                     <a wire:click="deleteRequisition({{$person->preparation_requisition->id}})" class="px-2 hover:bg-red-500 hover:border-red-500">
@@ -137,7 +137,7 @@
 
                                             <div class="inline-flex bg-green-600 text-white rounded-lg overflow-hidden">
                                                 @if($person->has_management)
-                                                    <a href="#" class="px-4 hover:bg-green-700 hover:border-green-700">
+                                                    <a wire:click="$emit('downloadDocument',[{{$person->management_requisition->id}}])" class="px-4 hover:bg-green-700 hover:border-green-700">
                                                         <span>التسيير</span>
                                                     </a>
                                                     <a wire:click="deleteRequisition({{$person->management_requisition->id}})" class="px-2 hover:bg-red-500 hover:border-red-500">
@@ -157,7 +157,7 @@
                                     <tr>
                                         <td colspan="7">
                                             <div class="px-6 py-8 text-xl font-semibold text-gray-700">
-                                                لم يتم اضافة تسخيرات بعد
+                                                التسخيرات غير موجودة
                                             </div>
                                         </td>
                                     </tr>

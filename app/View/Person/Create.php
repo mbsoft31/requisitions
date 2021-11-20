@@ -16,6 +16,7 @@ class Create extends Component
         "closeCreateForm" => "closeCreateForm",
         "requisitionUpdated" => '$refresh',
         "addRequisition" => 'addRequisition',
+        'deleteRequisition'=>'deleteRequisition',
         "requisitionDeleted" => '$refresh',
         'saved'=>'$refresh'
     ];
@@ -57,11 +58,17 @@ class Create extends Component
         $this->requisitions[$inputs['type']] = new Requisition($inputs);
     }
 
+    public function deleteRequisition($requisition)
+    {
+        if (!$this->show)return;
+        $this->requisitions[$requisition['type']] = null ;
+//        $this->emit("requisitionDeleted");
+    }
     public function store(CreatePerson $creator,CreateRequisition $requisitionCreator)
     {
         $this->person = $creator->create($this->state);
         foreach ($this->requisitions as $type=>$requisition) {
-            $requisitionCreator->create($this->state, $requisition , $this->person);
+            $requisitionCreator->create($requisition,$type , $this->person);
         }
         $this->emit('personCreated');
         $this->closeCreateForm();
