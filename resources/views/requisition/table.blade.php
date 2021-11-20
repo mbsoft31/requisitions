@@ -19,7 +19,7 @@
                 <div class="col-span-4 px-4 sm:px-6">
 
                     <div>
-                        <input id="search" type="text" placeholder="{{ __('بحث') }}" class="w-full rounded-lg">
+                        <input wire:model.debounce.500ms="search" id="search" type="text" placeholder="{{ __('بحث') }}" class="w-full rounded-lg">
                     </div>
 
                 </div>

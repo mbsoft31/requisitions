@@ -10,7 +10,8 @@ use Livewire\WithPagination;
 class Table extends Component
 {
     use WithPagination;
-
+    public $search = '';
+    public $columns = ['first_name','last_name','birth_place','birthdate','commission'];
     protected $listeners = [
         "personUpdated" => '$refresh',
         "personCreated" => '$refresh',
@@ -27,6 +28,12 @@ class Table extends Component
 
     public function render()
     {
-        return view('requisition.table', ["requisitions" => Person::paginate(5)]);
+        $query = Person::query();
+        if (strlen($this->search)>2){
+            foreach($this->columns as $column){
+                $query->orWhere($column, 'LIKE', '%' . $this->search . '%');
+            }
+        }
+        return view('requisition.table', ["requisitions" => $query->paginate(5)]);
     }
 }
