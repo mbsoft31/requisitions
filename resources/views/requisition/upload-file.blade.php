@@ -89,20 +89,14 @@
                         </div>
                         @endif
 
-{{--                        <div class="px-6 py-4 flex justify-end items-center bg-gray-50">--}}
-{{--                            <button  wire:click="check" type="button" class="px-4 py-2 border rounded-md text-gray-50 bg-gray-600 hover:text-white hover:bg-gray-800">--}}
-{{--                                حفظ المعلومات--}}
-{{--                            </button>--}}
-{{--                        </div>--}}
-
                     </form>
                 </div>
             </main>
-            <footer class="flex  items-center justify-end px-6 py-4 bg-gray-50">
-                <button wire:click="save" type="button" class="px-4 py-2 bg-gray-600 border rounded-md text-gray-50 hover:text-white hover:bg-gray-700">
-                    حفظ المعلومات
-                </button>
-            </footer>
+{{--            <footer class="flex  items-center justify-end px-6 py-4 bg-gray-50">--}}
+{{--                <button wire:click="save" type="button" class="px-4 py-2 bg-gray-600 border rounded-md text-gray-50 hover:text-white hover:bg-gray-700">--}}
+{{--                    حفظ المعلومات--}}
+{{--                </button>--}}
+{{--            </footer>--}}
         </div>
 
     </div>
