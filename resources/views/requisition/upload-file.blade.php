@@ -54,11 +54,11 @@
                                         </div>
                                         <div class="flex items-baseline space-x-4">
                                             <div class="uppercase text-base font-semibold tracking-wider text-gray-500">
-                                                عدد التسجيلات الموجودة في الملف:
+                                                تم تسجيل :
                                             </div>
                                             <div>
-                                                <span class="text-lg font-semibold text-gray-700">500</span>
-                                                <span>تسجيل</span>
+                                                <span class="text-lg font-semibold text-gray-700">{{$fileCount}}</span>
+                                                <span>تسخيرة</span>
                                             </div>
                                         </div>
                                         <div class="self-end">

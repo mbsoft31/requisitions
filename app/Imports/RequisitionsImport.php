@@ -12,6 +12,7 @@ use Maatwebsite\Excel\Concerns\WithStartRow;
 
 class RequisitionsImport implements ToModel,WithHeadingRow,WithStartRow
 {
+    public static $count = 0 ;
     /**
     * @param array $row
     *
@@ -27,7 +28,7 @@ class RequisitionsImport implements ToModel,WithHeadingRow,WithStartRow
             'birthdate' => $row['tarykh_almylad'],
             'birth_place' => $row['mkan_almylad'],
 //            'rank' => $row['alsnf'],
-            'rank' => array_search($row['alsnf'],Person::$ranks),
+            'rank' => array_search($row['alrtb'],Person::$ranks),
             'commission' => $row['alhyy_almstkhdm'],
             'original_job' => $row['alothyf_alasly'],
             'requisition_date' => $row['tarykh_altskhyr'],
@@ -43,6 +44,7 @@ class RequisitionsImport implements ToModel,WithHeadingRow,WithStartRow
         if ($type) {
             $requisitionCreator->create($requistionInputs,$type,$person);
         }
+        self::$count++;
         return $person;
     }
 

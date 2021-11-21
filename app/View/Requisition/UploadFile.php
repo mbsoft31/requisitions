@@ -18,6 +18,7 @@ class UploadFile extends Component
 //    use WithFileUploads;
     public $show = true;
     public $file = null;
+    public $fileCount = 0;
 
     public function openUploadForm()
     {
@@ -42,6 +43,8 @@ class UploadFile extends Component
     public function updatedFile()
     {
         Excel::import(new RequisitionsImport, $this->file);
+        $this->fileCount = RequisitionsImport::$count;
+        RequisitionsImport::$count = 0 ;
     }
 
     public function render()
