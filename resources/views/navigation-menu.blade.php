@@ -26,7 +26,7 @@
                         <x-jet-nav-link wire:click="$emit('downloadDocument')" >
                             {{ __('Download all to Word') }}
                         </x-jet-nav-link>
-                        <x-jet-nav-link wire:click="$emit('importAllFromExcel')" >
+                        <x-jet-nav-link wire:click="$emit('openUploadForm')" >
                             {{ __('Upload Excel File') }}
                         </x-jet-nav-link>
                     @endcan
