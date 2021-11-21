@@ -11,5 +11,9 @@
     <div class="py-6 w-10/12 mx-auto">
         @livewire('requisition.table')
     </div>
+    <div >
+        <livewire:
+        @livewire('requisition.upload-file')
+    </div>
 
 </div>
