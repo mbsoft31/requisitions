@@ -45,6 +45,7 @@ class UploadFile extends Component
         Excel::import(new RequisitionsImport, $this->file);
         $this->fileCount = RequisitionsImport::$count;
         RequisitionsImport::$count = 0 ;
+        $this->emit('personCreated');
     }
 
     public function render()
