@@ -36,8 +36,8 @@ class Index extends Component
             $requisitions = Requisition::whereIn('id',$requisitionsIds)->get();
         else
             $requisitions = Requisition::all();
-
-        $requisitions->map(function ($requisition)use (&$replacements){
+        foreach ($requisitions as $requisition) {
+            if (!$requisition->person) continue ;
             $replacements[] = [
                 "id" => $requisition->id,
                 "requisition_date" => Carbon::now()->format('Y-m-d'),
@@ -46,7 +46,7 @@ class Index extends Component
                 "rank" => Person::$ranks[$requisition->person->rank],
                 "category" => Person::$classes[$requisition->person->rank],
             ];
-        });
+        }
 //        dd($requisitions);
         $templateProcessor->cloneBlock('requisition_block', 0, true, false, $replacements);
         $templateProcessor->saveAs(public_path('templates/req_output.docx'));
