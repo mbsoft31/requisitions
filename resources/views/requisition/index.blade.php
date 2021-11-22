@@ -3,6 +3,9 @@
     <div>
         @livewire('person.create')
     </div>
+    <div>
+        @livewire('person.delete')
+    </div>
 
     <div>
         @livewire('person.edit')

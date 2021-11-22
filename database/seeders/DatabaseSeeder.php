@@ -26,12 +26,12 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $role = Role::create(["name" => "admin"]);
-        Permission::findOrCreate('see requisitions');
+        Permission::findOrCreate('manage requisitions');
         Permission::findOrCreate( 'export/import');
-        $role->givePermissionTo('see requisitions');
+        $role->givePermissionTo('manage requisitions');
         $role->givePermissionTo('export/import');
         $user->assignRole("admin");
-        if ($user->can('see requisitions')) dump('can see requisitions ');
+        if ($user->can('manage requisitions')) dump('can manage requisitions');
 
         Person::factory()
             ->count(10)

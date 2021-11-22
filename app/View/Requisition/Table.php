@@ -16,6 +16,7 @@ class Table extends Component
     protected $listeners = [
         "personUpdated" => '$refresh',
         "personCreated" => '$refresh',
+        "personDeleted" => '$refresh',
         "requisitionUpdated" => '$refresh',
         "requisitionDeleted" => '$refresh',
     ];
@@ -30,7 +31,7 @@ class Table extends Component
     public function render()
     {
         $query = Person::query();
-        if (Auth::user()->cannot('see requisitions'))
+        if (Auth::user()->cannot('manage requisitions'))
             $query->whereHas('requisitions', function($q){
                 $q->where('person_id', Auth::id());
             });
