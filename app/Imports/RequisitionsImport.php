@@ -38,13 +38,13 @@ class RequisitionsImport implements ToModel,WithHeadingRow,WithStartRow
             'authorized_tasks' => $row['almham_almokl_alyh'],
         ];
         $person = $personCreator->create($data);
-        $type = null ;
+        $type = -1 ;
         foreach (Requisition::$types as $key =>$value)
-            if (str_contains($row['alsnf'],$value)) $type = $key;
-        if ($type) {
+            if (str_contains($row['noaa_altskhyr'],$value)) $type = $key;
+        if ($type!=-1) {
             $requisitionCreator->create($requistionInputs,$type,$person);
+            self::$count++;
         }
-        self::$count++;
         return $person;
     }
 
