@@ -6,24 +6,30 @@
                 <!-- Logo -->
                 <div class="flex items-center flex-shrink-0">
                     <a href="{{ route('dashboard') }}">
-                        <x-jet-application-mark class="block w-auto h-9" />
+{{--                        <x-jet-application-mark class="block w-auto h-9" />--}}
+                        <img src="{{asset('images/logo.png')}}" alt="logo" class="object-fill h-12 ">
                     </a>
                 </div>
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:flex">
-                    <x-jet-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
-                    </x-jet-nav-link>
-                    <x-jet-nav-link href="{{ route('requisition.index') }}" :active="request()->routeIs('requisition.index')">
-                        {{ __('Requisitions') }}
-                    </x-jet-nav-link>
-                    <x-jet-nav-link wire:click="$emit('exportAllToExcel')" >
-                        {{ __('Download requisitions') }}
-                    </x-jet-nav-link>
-                    <x-jet-nav-link wire:click="$emit('downloadDocument')" >
-                        {{ __('Download all to Word') }}
-                    </x-jet-nav-link>
+{{--                    <x-jet-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">--}}
+{{--                        {{ __('Dashboard') }}--}}
+{{--                    </x-jet-nav-link>--}}
+                        <x-jet-nav-link href="{{ route('requisition.index') }}" :active="request()->routeIs('requisition.index')">
+                            {{ __('Requisitions') }}
+                        </x-jet-nav-link>
+                    @can('export/import')
+                        <x-jet-nav-link wire:click="$emit('exportAllToExcel')" >
+                            {{ __('Download Excel File') }}
+                        </x-jet-nav-link>
+                        <x-jet-nav-link wire:click="$emit('downloadDocument')" >
+                            {{ __('Download all to Word') }}
+                        </x-jet-nav-link>
+                        <x-jet-nav-link wire:click="$emit('openUploadForm')" >
+                            {{ __('Upload Excel File') }}
+                        </x-jet-nav-link>
+                    @endcan
                 </div>
             </div>
 
@@ -93,18 +99,20 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-jet-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
-            </x-jet-responsive-nav-link>
+{{--            <x-jet-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">--}}
+{{--                {{ __('Dashboard') }}--}}
+{{--            </x-jet-responsive-nav-link>--}}
             <x-jet-responsive-nav-link href="{{ route('requisition.index') }}" :active="request()->routeIs('requisition.index')">
                 {{ __('Requisitions') }}
             </x-jet-responsive-nav-link>
+            @can('export/import')
             <x-jet-responsive-nav-link wire:click="$emit('exportAllToExcel')" >
                 {{ __('Download requisitions') }}
             </x-jet-responsive-nav-link>
             <x-jet-responsive-nav-link wire:click="$emit('downloadDocument')" >
                 {{ __('Download all to Word') }}
             </x-jet-responsive-nav-link>
+            @endcan
         </div>
 
         <!-- Responsive Settings Options -->

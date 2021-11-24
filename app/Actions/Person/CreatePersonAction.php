@@ -36,9 +36,10 @@ class CreatePersonAction implements CreatePerson {
             dd($exception->errors());
         }
 
-        return Person::create(array_merge($validated_data, [
-            "user_id" => Auth::id(),
-        ]));
+        return Person::updateOrCreate(
+            ['first_name'=>$inputs['first_name'],'last_name'=>$inputs['last_name'],'birthdate'=>$inputs['birthdate']],
+            array_merge($validated_data, ["user_id" => Auth::id(),])
+        );
     }
 
 }
