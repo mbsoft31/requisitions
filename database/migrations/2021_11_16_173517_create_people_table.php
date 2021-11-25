@@ -25,7 +25,7 @@ class CreatePeopleTable extends Migration
             // الهيئة المستخدمة
             $table->string('commission',50);
             $table->foreignId('user_id')->default(0)->onDelete('set default');
-            $table->unique(['first_name','last_name','birthdate']);
+            $table->unique(['first_name','last_name']);
             $table->timestamps();
         });
     }

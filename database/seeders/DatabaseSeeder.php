@@ -31,20 +31,20 @@ class DatabaseSeeder extends Seeder
         $role->givePermissionTo('manage requisitions');
         $role->givePermissionTo('export/import');
         $user->assignRole("admin");
-        if ($user->can('manage requisitions')) dump('can manage requisitions');
-
-        Person::factory()
-            ->count(10)
-            ->has(
-                Requisition::factory()
-                    ->count(2)
-                    ->sequence(
-                        ["type" => Requisition::$PREPARATION],
-                        ["type" => Requisition::$MANAGEMENT],
-                    )
-            )
-            ->for($user)
-            ->create();
+//        if ($user->can('manage requisitions')) dump('can manage requisitions');
+//
+//        Person::factory()
+//            ->count(10)
+//            ->has(
+//                Requisition::factory()
+//                    ->count(2)
+//                    ->sequence(
+//                        ["type" => Requisition::$PREPARATION],
+//                        ["type" => Requisition::$MANAGEMENT],
+//                    )
+//            )
+//            ->for($user)
+//            ->create();
 
         // Requisition::factory()->count(10)->create();
     }

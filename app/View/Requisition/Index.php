@@ -6,6 +6,9 @@ use App\Exports\RequisitionsExport;
 use App\Models\Person;
 use App\Models\Requisition;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Maatwebsite\Excel\Facades\Excel;
@@ -15,7 +18,7 @@ class Index extends Component
 {
     protected $listeners = [
         'exportAllToExcel'=>'exportAllToExcel',
-        "downloadDocument"=>"downloadDocument",
+        "downloadDocument"=>"downloadDocuments",
 //        'importAllFromExcel'=>'exportAllToExcel',
 //        'exportRequisition'=>'exportRequisition',
 
@@ -23,34 +26,106 @@ class Index extends Component
 
     public function exportAllToExcel()
     {
-        if(\Auth::user()->cannot('export/import')) return ;
+        if(Auth::user()->cannot('export/import')) return ;
         return Excel::download(new RequisitionsExport,'users.xlsx');
     }
 
-    public function downloadDocument(array $requisitionsIds = null)
+    /**
+     * @throws \PhpOffice\PhpWord\Exception\CopyFileException
+     * @throws \PhpOffice\PhpWord\Exception\CreateTemporaryFileException
+     */
+    public function downloadDocument(Requisition $requisition)
     {
-        if(\Auth::user()->cannot('export/import')) return ;
+        if(Auth::user()->cannot('export/import')) abort(403);
+
+        if(!$requisition) abort(404);
+
+        $replacement = $this->formatRequisition($requisition);
+
+        $templateProcessor = new TemplateProcessor(public_path('templates/req_template.docx'));
+
+        $templateProcessor->setValues($replacement);
+        $file_path = storage_path('outputs/' .
+            $requisition->person->user_id .
+            '/req_output' .
+            str_replace(' ', '_', $requisition->person->full_name) .
+            '.docx');
+
+        $templateProcessor->saveAs($file_path);
+
+        $requisition->is_printed = true;
+        $requisition->number = $replacement['id'];
+        $requisition->save();
+
+        return response()->download($file_path);
+    }
+
+    public function downloadManyDocuments(array $requisitions = [])
+    {
+        if (!$requisitions or count($requisitions) <= 0) abort(404);
+
+        $replacements = [];
+
+        foreach ($requisitions as $requisition) {
+            $replacements[] = $this->formatRequisition($requisition);
+        }
+
+
+    }
+
+    public function formatRequisition(Requisition $requisition) : array
+    {
+        $number = Requisition::whereNotNull('number')->max('number')?->number ?? 0;
+        return [
+            "id" => $requisition->number ?? ++$number,
+            "requisition_date" => Carbon::now()->format('Y-m-d'),
+            "full_name" => $requisition->person->first_name. ' ' . $requisition->person->last_name,
+            "type" => Requisition::$types[$requisition->type],
+            "rank" => Person::$ranks[$requisition->person->rank],
+            "category" => Person::$classes[$requisition->person->rank],
+            "user_id" => $requisition->person->user_id,
+        ];
+    }
+
+    /**
+     * @throws \PhpOffice\PhpWord\Exception\CopyFileException
+     * @throws \PhpOffice\PhpWord\Exception\CreateTemporaryFileException
+     */
+    public function downloadDocuments(array $requisitionsIds = null)
+    {
+        if(Auth::user()->cannot('export/import')) abort(403);
+
         $templateProcessor = new TemplateProcessor(public_path('templates/req_template.docx'));
         $replacements = [];
+        $number = Requisition::query()->max('number')??1;
+
+        $requisitions = Requisition::where('is_printed',false);
+
         if ($requisitionsIds)
-            $requisitions = Requisition::whereIn('id',$requisitionsIds)->get();
+            $requisitions = $requisitions->whereIn('id',$requisitionsIds)->get();
         else
-            $requisitions = Requisition::all();
+            $requisitions = $requisitions->get();
+
         foreach ($requisitions as $requisition) {
             if (!$requisition->person) continue ;
             $replacements[] = [
-                "id" => $requisition->id,
-                "requisition_date" => Carbon::now()->format('Y-m-d'),
+                "id" => $requisition->number ?? $number++,
+//                "requisition_date" => Carbon::now()->format('Y-m-d'),
+                "requisition_date" => $requisition->requisition_date,
                 "full_name" => $requisition->person->first_name. ' ' . $requisition->person->last_name,
                 "type" => Requisition::$types[$requisition->type],
                 "rank" => Person::$ranks[$requisition->person->rank],
                 "category" => Person::$classes[$requisition->person->rank],
+//                "user_id" => $requisition->person->user_id,
             ];
         }
-//        dd($requisitions);
+
+        if (sizeof($replacements)==0) abort(404);
+//        dd($replacements);
         $templateProcessor->cloneBlock('requisition_block', 0, true, false, $replacements);
-        $templateProcessor->saveAs(public_path('templates/req_output.docx'));
-        return response()->download(public_path('templates/req_output.docx'));
+        $templateProcessor->saveAs(public_path('templates/req_template.docx'));
+//        Requisition::whereIn('id',$requisitionsIds)->update(['is_printed'=>true]);
+        return response()->download(public_path('templates/req_template.docx'));
     }
 
     public function render()
