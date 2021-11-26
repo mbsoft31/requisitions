@@ -87,6 +87,11 @@ class Person extends Model
         return $this->requisitions()->where('type', Requisition::$MANAGEMENT)->first();
     }
 
+    public function getFullNameAttribute()
+    {
+        return $this->first_name . ' ' . $this->last_name;
+    }
+
     /**
      * @return bool
      */

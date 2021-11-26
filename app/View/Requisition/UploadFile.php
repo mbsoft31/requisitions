@@ -16,7 +16,7 @@ class UploadFile extends Component
         'openUploadForm'=>'openUploadForm',
     ];
 //    use WithFileUploads;
-    public $show = true;
+    public $show = false;
     public $file = null;
     public $fileCount = 0;
 

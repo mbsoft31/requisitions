@@ -19,18 +19,19 @@
 
                         <div class="grid grid-cols-12 gap-x-4 gap-y-6 px-6 py-8">
 
-                            <div class="col-span-6 space-y-2">
-                                <label class="block font-semibold">
-                                    {{ __('الإسم') }}
-                                </label>
-                                <input wire:model="state.first_name" id="first_name" type="text" placeholder="الإسم" class="w-full rounded-md">
-                            </div>
+
 
                             <div class="col-span-6 space-y-2">
                                 <label class="block font-semibold">
                                     {{ __('اللقب') }}
                                 </label>
                                 <input wire:model="state.last_name" id="last_name" type="text" placeholder="اللقب" class="w-full rounded-md">
+                            </div>
+                            <div class="col-span-6 space-y-2">
+                                <label class="block font-semibold">
+                                    {{ __('الإسم') }}
+                                </label>
+                                <input wire:model="state.first_name" id="first_name" type="text" placeholder="الإسم" class="w-full rounded-md">
                             </div>
 
                             <div class="col-span-6 space-y-2">

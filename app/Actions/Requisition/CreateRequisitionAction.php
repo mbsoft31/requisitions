@@ -5,6 +5,7 @@ namespace App\Actions\Requisition;
 use App\Contracts\Requisition\CreateRequisition;
 use App\Models\Person;
 use App\Models\Requisition;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
@@ -38,6 +39,8 @@ class CreateRequisitionAction implements CreateRequisition{
 
         if ($person->$type_string)
             return null;
+        if (!array_key_exists('requisition_date',$inputs)) $inputs['requisition_date'] = new Carbon('20-11-2021');
+        if ($inputs['requisition_date'] == null ) $inputs['requisition_date'] = new Carbon('20-11-2021');
 
         try {
             $validated_data = Validator::make($inputs, $this->rules)->validate();
