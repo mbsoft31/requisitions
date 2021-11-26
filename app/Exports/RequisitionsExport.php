@@ -57,6 +57,7 @@ class RequisitionsExport implements
 
     public function map($row): array
     {
+//        dd($row->person);
         $data = [
             $row->id,
             $row->person->requisition_date,
