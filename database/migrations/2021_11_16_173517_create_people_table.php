@@ -1,5 +1,6 @@
 <?php
 
+use Carbon\Carbon;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -19,8 +20,8 @@ class CreatePeopleTable extends Migration
             $table->string('last_name');
             $table->string('birth_place')->nullable();
             $table->string('original_job')->nullable();
-            $table->date('birthdate');
-            $table->date('requisition_date');
+            $table->date('birthdate')->default('1980-01-01');
+            $table->date('requisition_date')->default('2021-11-20');
             $table->integer('rank');
             // الهيئة المستخدمة
             $table->string('commission',50);
