@@ -19,12 +19,12 @@ class CreatePersonAction implements CreatePerson {
         $this->rules = [
             'first_name' => 'required|max:50',
             'last_name' => 'required|max:50',
-//            'birthdate' => 'required|date',
+            'birthdate' => 'required|date',
             'birth_place' => 'max:50',
             'rank' => 'required',
             'commission' => 'required',
             'original_job' => 'required',
-            'requisition_date' => 'date',
+            'requisition_date' => 'required|date',
         ];
     }
 
@@ -36,11 +36,11 @@ class CreatePersonAction implements CreatePerson {
         }catch (ValidationException $exception){
             dd($exception->errors());
         }
-        if ($inputs['birthdate'] == null ) $inputs['birthdate'] = new Carbon('01-01-1980');
+
 
         return Person::updateOrCreate(
-            ['first_name'=>$inputs['first_name'],'last_name'=>$inputs['last_name'],'birthdate'=>$inputs['birthdate']],
-            array_merge($validated_data, ["user_id" => Auth::id(),])
+            ['first_name'=>$inputs['first_name'],'last_name'=>$inputs['last_name']],
+            array_merge($validated_data, ["user_id" => Auth::id()])
         );
     }
 
