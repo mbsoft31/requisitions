@@ -32,9 +32,7 @@ class Table extends Component
     {
         $query = Person::query();
         if (Auth::user()->cannot('manage requisitions'))
-            $query->whereHas('requisitions', function($q){
-                $q->where('person_id', Auth::id());
-            });
+            $query->where('user_id', Auth::id());
         if (strlen($this->search)>2){
             foreach($this->columns as $column){
                 $query->orWhere($column, 'LIKE', '%' . $this->search . '%');
