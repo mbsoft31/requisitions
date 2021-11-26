@@ -43,8 +43,8 @@ class Create extends Component
             "last_name" => "",
             "birth_place" => "",
             "original_job" => "",
-            "birthdate" => "",
-            "requisition_date" => "",
+            "birthdate" => '2021-11-20',
+            "requisition_date" => '1980-01-01',
             "rank" => "",
             "commission" => "",
         ];
@@ -87,8 +87,8 @@ class Create extends Component
             "last_name" => "",
             "birth_place" => "",
             "original_job" => "",
-            "birthdate" => "",
-            "requisition_date" => "",
+            "birthdate" => '2021-11-20',
+            "requisition_date" => '1980-01-01',
             "rank" => "",
             "commission" => "",
         ];
