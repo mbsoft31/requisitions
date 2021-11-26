@@ -38,7 +38,7 @@
                                 <label class="block font-semibold">
                                     {{ __('تاريخ الميلاد') }}
                                 </label>
-                                <input wire:model="state.birthdate" id="birthdate" type="date" class="w-full rounded-md">
+                                <input wire:model.defer="state.birthdate" id="birthdate" type="date" class="w-full rounded-md">
                             </div>
 
                             <div class="col-span-6 space-y-2">
@@ -60,6 +60,7 @@
                                     {{ __('الرتبة') }}
                                 </label>
                                 <select wire:model="state.rank" id="rank" class="w-full rounded-md">
+                                    <option value="" disabled selected>فم بإختيار الرتبة</option>
                                     @foreach($ranks as $key => $value)
                                         <option value="{{$key}}">{{ $value }}</option>
                                     @endforeach
