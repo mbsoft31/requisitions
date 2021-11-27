@@ -10,6 +10,13 @@
                     {{ __('تسخيرة عملية التسيير') }}
                     @break
                 @endswitch
+
+                @if($requisition->printed_by)
+                    <span class="text-xs font-extralight text-gray-500">
+                        <span>تمت الطباعة من طرف المستخدم :</span>
+                        <span>{{\App\Models\User::find($requisition->printed_by)->name}}</span>
+                    </span>
+                @endif
             </div>
             <div class="flex gap-2">
                 @if($editing)

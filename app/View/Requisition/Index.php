@@ -99,12 +99,8 @@ class Index extends Component
         $replacements = [];
         $number = Requisition::query()->max('number')??1;
 
-        $requisitions = Requisition::where('is_printed',false);
-
-        if ($requisitionsIds)
-            $requisitions = $requisitions->whereIn('id',$requisitionsIds)->get();
-        else
-            $requisitions = $requisitions->get();
+        $requisitionsIds = $requisitionsIds??Requisition::whereNull('printed_by')->pluck('id');
+        $requisitions = Requisition::whereIn('id',$requisitionsIds)->get();
 
         foreach ($requisitions as $requisition) {
             if (!$requisition->person) continue ;
@@ -121,11 +117,11 @@ class Index extends Component
         }
 
         if (sizeof($replacements)==0) abort(404);
-//        dd($replacements);
         $templateProcessor->cloneBlock('requisition_block', 0, true, false, $replacements);
-        $templateProcessor->saveAs(public_path('templates/req_template.docx'));
-//        Requisition::whereIn('id',$requisitionsIds)->update(['is_printed'=>true]);
-        return response()->download(public_path('templates/req_template.docx'));
+        $templateProcessor->saveAs(public_path('templates/req_output.docx'));
+
+        Requisition::whereIn('id',$requisitionsIds)->update(['printed_by'=>Auth::id()]);
+        return response()->download(public_path('templates/req_output.docx'));
     }
 
     public function render()
