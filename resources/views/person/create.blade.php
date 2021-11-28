@@ -7,7 +7,7 @@
                 <h1 class="flex-grow text-xl font-semibold tracking-wide text-gray-700">
                     إضافة مسخر جديد
                 </h1>
-                <button wire:click="closeCreateForm" class="block px-2 py-1 border border-transparent rounded-lg hover:border-gray-300">
+                <button wire:click="closeCreateForm"  wire:keydown.escape="closeCreateForm" class="block px-2 py-1 border border-transparent rounded-lg hover:border-gray-300">
                     <svg class="text-gray-500 w-4 h-6" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 352 512"><path d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"/></svg>
                 </button>
             </header>
@@ -52,7 +52,7 @@
                                 <label class="block font-semibold">
                                     {{ __('الوظيفة الأصلية') }}
                                 </label>
-                                <input wire:model="state.original_job" id="last_name" type="text" class="w-full rounded-md">
+                                <input name="original_job" wire:model="state.original_job" type="text" class="w-full rounded-md" autocomplete="original_job">
                             </div>
 
                             <div class="col-span-6 space-y-2">
@@ -67,11 +67,14 @@
                                 </select>
                             </div>
 
-                            <div class="col-span-6 space-y-2">
+                            <div class="relative col-span-6 space-y-2">
                                 <label class="block font-semibold">
                                     {{ __('الهيئة المستخدمة') }}
                                 </label>
-                                <input wire:model="state.commission" id="commission" type="text"  class="w-full rounded-md">
+                                <input name="commission" wire:model="state.commission" id="commission" type="text" autocomplete="commission" class="w-full rounded-md">
+                                <div class="absolute inset-x-0 top-0 bg-red-100 h-32">
+                                    bla bla
+                                </div>
                             </div>
 
                             <div class="col-span-6 space-y-2">
@@ -104,5 +107,16 @@
             </footer>
         </div>
     </div>
+
+    @push("scripts")
+        <script>
+            window.addEventListener("keydown",  function(event) {
+                if (event.key === "Escape") {
+                    Livewire.emit('closeCreateForm');
+                    Livewire.emit('closeEditForm');
+                }
+            });
+        </script>
+    @endpush
 
 </div>

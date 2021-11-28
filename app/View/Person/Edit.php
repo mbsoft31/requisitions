@@ -56,9 +56,10 @@ class Edit extends Component
         $this->person = null;
     }
 
-    public function deleteRequisition($requisition)
+    public function deleteRequisition(Requisition $requisition)
     {
         if (!$this->show)return;
+//        dd($requisition);
         $requisition->delete();
         $this->person->refresh();
 //        dd($requisition);

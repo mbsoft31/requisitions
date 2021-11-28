@@ -1,7 +1,6 @@
 <?php
 
 namespace App\View\Requisition;
-
 use App\Exports\RequisitionsExport;
 use App\Models\Person;
 use App\Models\Requisition;
@@ -36,6 +35,7 @@ class Index extends Component
      */
     public function downloadDocument(Requisition $requisition)
     {
+        dd($requisition);
         if(Auth::user()->cannot('export/import')) abort(403);
 
         if(!$requisition) abort(404);

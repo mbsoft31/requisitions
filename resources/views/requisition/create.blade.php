@@ -31,14 +31,14 @@
                             <label class="block font-semibold">
                                 {{ __('مكان التسخير') }}
                             </label>
-                            <input wire:model="state.destination" id="destination" type="text" placeholder="destination" class="w-full rounded-md">
+                            <input autocomplete="destination" wire:model="state.destination" id="destination" name="destination" type="text" placeholder="destination" class="w-full rounded-md">
                         </div>
 
                         <div class="col-span-6 space-y-2">
                             <label class="block font-semibold">
                                 {{ __('مهمة التسخير') }}
                             </label>
-                            <input wire:model="state.authorized_tasks" id="authorized_tasks" type="text" placeholder="authorized_tasks" class="w-full rounded-md">
+                            <input autocomplete="authorized_tasks" wire:model="state.authorized_tasks" id="authorized_tasks" name="authorized_tasks" type="text" placeholder="authorized_tasks" class="w-full rounded-md">
                         </div>
                     </div>
                 @endif

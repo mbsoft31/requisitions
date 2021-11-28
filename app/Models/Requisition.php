@@ -16,8 +16,8 @@ class Requisition extends Model
     public static int $MANAGEMENT = 1;
 
     public static array $types = [
-        "تسيير",
         "تحضير",
+        "تسيير",
     ];
 
     public function person() : BelongsTo
