@@ -125,25 +125,29 @@
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
 
-                                            <div class="inline-flex bg-green-600 text-white rounded-lg overflow-hidden">
+                                            <div class="inline-flex bg-green-600 text-white rounded-lg cursor-pointer overflow-hidden">
                                                 @if($person->has_preparation)
                                                     <a wire:click="$emit('downloadDocument', {{$person->preparation_requisition}})" class="px-4 hover:bg-green-700 hover:border-green-700">
                                                         <span>التحضير</span>
                                                     </a>
-                                                    <a wire:click="deleteRequisition({{$person->preparation_requisition->id}})" class="px-2 hover:bg-red-500 hover:border-red-500">
-                                                        <span>&times;</span>
-                                                    </a>
+                                                    @can("delete requisition")
+                                                        <a wire:click="deleteRequisition({{$person->preparation_requisition->id}})" class="px-2 hover:bg-red-500 hover:border-red-500">
+                                                            <span>&times;</span>
+                                                        </a>
+                                                    @endcan
                                                 @endif
                                             </div>
 
-                                            <div class="inline-flex bg-green-600 text-white rounded-lg overflow-hidden">
+                                            <div class="inline-flex bg-green-600 text-white rounded-lg cursor-pointer overflow-hidden">
                                                 @if($person->has_management)
                                                     <a wire:click="$emit('downloadDocument',{{$person->management_requisition}})" class="px-4 hover:bg-green-700 hover:border-green-700">
                                                         <span>التسيير</span>
                                                     </a>
-                                                    <a wire:click="deleteRequisition({{$person->management_requisition->id}})" class="px-2 hover:bg-red-500 hover:border-red-500">
-                                                        <span>&times;</span>
-                                                    </a>
+                                                    @can("delete requisition")
+                                                        <a wire:click="deleteRequisition({{$person->management_requisition->id}})" class="px-2 hover:bg-red-500 hover:border-red-500">
+                                                            <span>&times;</span>
+                                                        </a>
+                                                    @endcan
                                                 @endif
                                             </div>
 

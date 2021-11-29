@@ -12,14 +12,12 @@
                 </button>
             </header>
 
-            <main class="flex-grow">
+            <main class="flex-grow overflow-y-scroll">
                 <form action="#" method="post" class="">
                     @csrf
                     <div class="flex flex-col divide-y">
 
                         <div class="grid grid-cols-12 gap-x-4 gap-y-6 px-6 py-8">
-
-
 
                             <div class="col-span-6 space-y-2">
                                 <label class="block font-semibold">
@@ -72,9 +70,9 @@
                                     {{ __('الهيئة المستخدمة') }}
                                 </label>
                                 <input name="commission" wire:model="state.commission" id="commission" type="text" autocomplete="commission" class="w-full rounded-md">
-                                <div class="absolute inset-x-0 top-0 bg-red-100 h-32">
+                                {{--<div class="absolute inset-x-0 top-0 bg-red-100 h-32">
                                     bla bla
-                                </div>
+                                </div>--}}
                             </div>
 
                             <div class="col-span-6 space-y-2">

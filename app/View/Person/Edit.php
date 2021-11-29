@@ -34,10 +34,11 @@ class Edit extends Component
 
     public function addRequisition($inputs,CreateRequisition $creator)
     {
-        $creator->create($inputs,$inputs['type'],$this->person);
+        $requisition = $creator->create($inputs,$inputs['type'],$this->person);
         if ($this->person)
             $this->person->refresh();
-        $this->emit('requisitionUpdated');
+
+        if ($requisition) $this->emit('requisitionUpdated');
     }
 
     public function closeEditForm()

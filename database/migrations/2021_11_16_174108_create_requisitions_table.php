@@ -20,6 +20,11 @@ class CreateRequisitionsTable extends Migration
             $table->string('destination');
             // المهام الموكلة اليه
             $table->string('authorized_tasks');
+
+            $table->string('expeditor');
+            $table->integer('invoice_number');
+            $table->date('invoice_date');
+
             $table->unsignedBigInteger('printed_by')->nullable();
             $table->boolean('number')->nullable()->unique();
             $table->foreignId('person_id')->onDelete('cascade');

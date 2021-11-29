@@ -30,7 +30,9 @@ class Index extends Component
     {
         if( Auth::user()->cannot('export/import') ) return null;
 
-        return Excel::download(new RequisitionsExport,'users.xlsx');
+        dd("test");
+
+        //return Excel::download(new RequisitionsExport,'users.xlsx');
     }
 
     /**

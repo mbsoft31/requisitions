@@ -22,6 +22,9 @@ class CreateRequisitionAction implements CreateRequisition{
         $this->rules = [
             'destination' => ['required'],
             'authorized_tasks' => ['required'],
+            'expeditor' => ['required'],
+            'invoice_number' => ['required'],
+            'invoice_date' => ['required', 'date'],
         ];
     }
 
@@ -40,11 +43,7 @@ class CreateRequisitionAction implements CreateRequisition{
         if ($person->$type_string)
             return null;
 
-        try {
-            $validated_data = Validator::make($inputs, $this->rules)->validate();
-        } catch (ValidationException $e) {
-            dd($e->errors());
-        }
+        $validated_data = Validator::make($inputs, $this->rules)->validate();
 
         return $person->requisitions()->create(array_merge($validated_data, [
             "type" => $type,
