@@ -26,26 +26,30 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $role = Role::create(["name" => "admin"]);
+
         Permission::findOrCreate('manage requisitions');
         Permission::findOrCreate( 'export/import');
+        Permission::findOrCreate( 'delete person');
+
+        $role->givePermissionTo('delete person');
         $role->givePermissionTo('manage requisitions');
         $role->givePermissionTo('export/import');
-        $user->assignRole("admin");
-//        if ($user->can('manage requisitions')) dump('can manage requisitions');
-//
-//        Person::factory()
-//            ->count(10)
-//            ->has(
-//                Requisition::factory()
-//                    ->count(2)
-//                    ->sequence(
-//                        ["type" => Requisition::$PREPARATION],
-//                        ["type" => Requisition::$MANAGEMENT],
-//                    )
-//            )
-//            ->for($user)
-//            ->create();
 
-        // Requisition::factory()->count(10)->create();
+        $user->assignRole("admin");
+
+        $user = User::factory()->create([
+            "name" => "manager",
+            "email" => "manager@mail.com",
+        ]);
+
+        $role = Role::create(["name" => "manager"]);
+
+        Permission::findOrCreate('manage requisitions');
+        Permission::findOrCreate( 'export/import');
+
+        $role->givePermissionTo('manage requisitions');
+        $role->givePermissionTo('export/import');
+
+        $user->assignRole("manager");
     }
 }

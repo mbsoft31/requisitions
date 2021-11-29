@@ -54,7 +54,7 @@
                                         </div>
                                         <div class="flex items-baseline space-x-4">
                                             <div class="uppercase text-base font-semibold tracking-wider text-gray-500">
-                                                تم تسجيل :
+                                                تم تسجيل / تعديل :
                                             </div>
                                             <div>
                                                 <span class="text-lg font-semibold text-gray-700">{{$fileCount}}</span>

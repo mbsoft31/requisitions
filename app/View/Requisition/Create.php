@@ -2,8 +2,6 @@
 
 namespace App\View\Requisition;
 
-use App\Contracts\Requisition\CreateRequisition;
-use App\Models\Person;
 use Livewire\Component;
 
 class Create extends Component
@@ -11,11 +9,12 @@ class Create extends Component
     public $state;
     public $type ;
     public $creating =false;
+
     public function mount($type)
     {
         $this->type = $type;
         $this->state = [
-            "type"=>$type,
+            "type" => $type,
             "destination" => "",
             "authorized_tasks" => "",
         ];
@@ -31,11 +30,10 @@ class Create extends Component
         $this->creating = false;
     }
 
-
     public function save()
     {
         $this->closeCreateRequisition();
-        $this->emit("addRequisition",$this->state);
+        $this->emit("addRequisition", $this->state);
     }
 
     public function render()

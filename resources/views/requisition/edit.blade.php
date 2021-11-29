@@ -10,6 +10,13 @@
                     {{ __('تسخيرة عملية التسيير') }}
                     @break
                 @endswitch
+
+                @if($requisition->printed_by)
+                    <span class="text-xs font-extralight text-gray-500">
+                        <span>تمت الطباعة من طرف المستخدم :</span>
+                        <span>{{\App\Models\User::find($requisition->printed_by)->name}}</span>
+                    </span>
+                @endif
             </div>
             <div class="flex gap-2">
                 @if($editing)
@@ -29,20 +36,41 @@
         <div class="flex items-center px-6 py-2">
             @if($editing)
                 <div class="grid grid-cols-12 gap-x-4 gap-y-6">
-                <div class="col-span-6 space-y-2">
-                    <label class="block font-semibold">
-                        {{ __('مكان التسخير') }}
-                    </label>
-                    <input wire:model="state.destination" id="destination" type="text" placeholder="destination" class="w-full rounded-md">
-                </div>
+                    <div class="col-span-7 space-y-2">
+                        <label class="block font-semibold">
+                            {{ __('الجهة المرسلة') }}
+                        </label>
+                        <input autocomplete="expeditor" wire:model="state.expeditor" id="expeditor" name="expeditor" type="text" placeholder="destination" class="w-full rounded-md">
+                    </div>
 
-                <div class="col-span-6 space-y-2">
-                    <label class="block font-semibold">
-                        {{ __('مهمة التسخير') }}
-                    </label>
-                    <input wire:model="state.authorized_tasks" id="authorized_tasks" type="text" placeholder="authorized_tasks" class="w-full rounded-md">
+                    <div class="col-span-2 space-y-2">
+                        <label class="block font-semibold">
+                            {{ __('رقم الإرسالية') }}
+                        </label>
+                        <input autocomplete="invoice_number" wire:model="state.invoice_number" id="invoice_number" name="invoice_number" type="number" placeholder="destination" class="w-full rounded-md">
+                    </div>
+
+                    <div class="col-span-3 space-y-2">
+                        <label class="block font-semibold">
+                            {{ __('تاريخ الإرسالية') }}
+                        </label>
+                        <input autocomplete="invoice_date" wire:model="state.invoice_date" id="invoice_date" name="invoice_date" type="date" placeholder="destination" class="w-full rounded-md">
+                    </div>
+
+                    <div class="col-span-6 space-y-2">
+                        <label class="block font-semibold">
+                            {{ __('مكان التسخير') }}
+                        </label>
+                        <input wire:model="state.destination" id="destination" type="text" placeholder="destination" class="w-full rounded-md">
+                    </div>
+
+                    <div class="col-span-6 space-y-2">
+                        <label class="block font-semibold">
+                            {{ __('مهمة التسخير') }}
+                        </label>
+                        <input wire:model="state.authorized_tasks" id="authorized_tasks" type="text" placeholder="authorized_tasks" class="w-full rounded-md">
+                    </div>
                 </div>
-            </div>
             @else
                 <div class="flex-grow">
                 <div>

@@ -34,8 +34,8 @@ class RequisitionsExport implements
         return [
             'رقم التسخيرة',
             'تاريخ التسخيرة',
-            'الإسم',
             'اللقب',
+            'الإسم',
             'تاريخ الميلاد',
             'مكان الميلاد',
             'الوظيفة الأصلية',
@@ -58,6 +58,7 @@ class RequisitionsExport implements
     public function map($row): array
     {
 //        dd($row->person);
+        if (!$row->person) return [];
         $data = [
             $row->id,
             $row->person->requisition_date,

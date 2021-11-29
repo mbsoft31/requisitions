@@ -1,95 +1,65 @@
 <?php
 
 namespace App\View\Requisition;
-
+use App\Actions\Requisition\PrintRequisitionAction;
+use App\Contracts\Requisition\PrintRequisition;
 use App\Exports\RequisitionsExport;
 use App\Models\Person;
 use App\Models\Requisition;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use Livewire\Component;
-use Livewire\WithPagination;
 use Maatwebsite\Excel\Facades\Excel;
+use PhpOffice\PhpWord\Exception\CopyFileException;
+use PhpOffice\PhpWord\Exception\CreateTemporaryFileException;
 use PhpOffice\PhpWord\TemplateProcessor;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class Index extends Component
 {
+
     protected $listeners = [
         'exportAllToExcel'=>'exportAllToExcel',
-        "downloadDocument"=>"downloadDocuments",
-//        'importAllFromExcel'=>'exportAllToExcel',
-//        'exportRequisition'=>'exportRequisition',
-
+        "downloadDocument" => "downloadDocument",
+        "downloadManyDocuments" => "downloadManyDocuments"
     ];
 
-    public function exportAllToExcel()
+    public function exportAllToExcel(): ?BinaryFileResponse
     {
-        if(Auth::user()->cannot('export/import')) return ;
-        return Excel::download(new RequisitionsExport,'users.xlsx');
+        if( Auth::user()->cannot('export/import') ) return null;
+
+        dd("test");
+
+        //return Excel::download(new RequisitionsExport,'users.xlsx');
     }
 
     /**
-     * @throws \PhpOffice\PhpWord\Exception\CopyFileException
-     * @throws \PhpOffice\PhpWord\Exception\CreateTemporaryFileException
+     * @throws CopyFileException
+     * @throws CreateTemporaryFileException
      */
-    public function downloadDocument(Requisition $requisition)
+    public function downloadDocument(Requisition $requisition): BinaryFileResponse
     {
-        if(Auth::user()->cannot('export/import')) abort(403);
+        /** @var PrintRequisition $printer */
+        $printer = App::make(PrintRequisition::class);
 
-        if(!$requisition) abort(404);
+        $document = $printer->downloadDocument($requisition);
 
-        $replacement = $this->formatRequisition($requisition);
-
-        $templateProcessor = new TemplateProcessor(public_path('templates/req_template.docx'));
-
-        $templateProcessor->setValues($replacement);
-        $file_path = storage_path('outputs/' .
-            $requisition->person->user_id .
-            '/req_output' .
-            str_replace(' ', '_', $requisition->person->full_name) .
-            '.docx');
-
-        $templateProcessor->saveAs($file_path);
-
-        $requisition->is_printed = true;
-        $requisition->number = $replacement['id'];
-        $requisition->save();
-
-        return response()->download($file_path);
+        return $document;
     }
 
-    public function downloadManyDocuments(array $requisitions = [])
+    public function downloadManyDocuments($requisitions)
     {
-        if (!$requisitions or count($requisitions) <= 0) abort(404);
+        /** @var PrintRequisition $printer */
+        $printer = App::make(PrintRequisition::class);
 
-        $replacements = [];
-
-        foreach ($requisitions as $requisition) {
-            $replacements[] = $this->formatRequisition($requisition);
-        }
-
-
-    }
-
-    public function formatRequisition(Requisition $requisition) : array
-    {
-        $number = Requisition::whereNotNull('number')->max('number')?->number ?? 0;
-        return [
-            "id" => $requisition->number ?? ++$number,
-            "requisition_date" => Carbon::now()->format('Y-m-d'),
-            "full_name" => $requisition->person->first_name. ' ' . $requisition->person->last_name,
-            "type" => Requisition::$types[$requisition->type],
-            "rank" => Person::$ranks[$requisition->person->rank],
-            "category" => Person::$classes[$requisition->person->rank],
-            "user_id" => $requisition->person->user_id,
-        ];
+        return $printer->downloadManyDocuments($requisitions);
     }
 
     /**
-     * @throws \PhpOffice\PhpWord\Exception\CopyFileException
-     * @throws \PhpOffice\PhpWord\Exception\CreateTemporaryFileException
+     * @throws CopyFileException
+     * @throws CreateTemporaryFileException
      */
     public function downloadDocuments(array $requisitionsIds = null)
     {
@@ -99,12 +69,8 @@ class Index extends Component
         $replacements = [];
         $number = Requisition::query()->max('number')??1;
 
-        $requisitions = Requisition::where('is_printed',false);
-
-        if ($requisitionsIds)
-            $requisitions = $requisitions->whereIn('id',$requisitionsIds)->get();
-        else
-            $requisitions = $requisitions->get();
+        $requisitionsIds = $requisitionsIds??Requisition::whereNull('printed_by')->pluck('id');
+        $requisitions = Requisition::whereIn('id',$requisitionsIds)->get();
 
         foreach ($requisitions as $requisition) {
             if (!$requisition->person) continue ;
@@ -121,15 +87,16 @@ class Index extends Component
         }
 
         if (sizeof($replacements)==0) abort(404);
-//        dd($replacements);
         $templateProcessor->cloneBlock('requisition_block', 0, true, false, $replacements);
-        $templateProcessor->saveAs(public_path('templates/req_template.docx'));
-//        Requisition::whereIn('id',$requisitionsIds)->update(['is_printed'=>true]);
-        return response()->download(public_path('templates/req_template.docx'));
+        $templateProcessor->saveAs(public_path('templates/req_output.docx'));
+
+        Requisition::whereIn('id',$requisitionsIds)->update(['printed_by'=>Auth::id()]);
+        return response()->download(public_path('templates/req_output.docx'));
     }
 
     public function render()
     {
         return view('requisition.index');
     }
+
 }

@@ -29,6 +29,9 @@
                         <x-jet-nav-link wire:click="$emit('openUploadForm')" >
                             {{ __('Upload Excel File') }}
                         </x-jet-nav-link>
+                        <x-jet-nav-link wire:click="$emit('openPrintForm')" >
+                            {{ __('Advanced Printing') }}
+                        </x-jet-nav-link>
                     @endcan
                 </div>
             </div>

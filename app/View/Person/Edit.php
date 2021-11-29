@@ -34,10 +34,11 @@ class Edit extends Component
 
     public function addRequisition($inputs,CreateRequisition $creator)
     {
-        $creator->create($inputs,$inputs['type'],$this->person);
+        $requisition = $creator->create($inputs,$inputs['type'],$this->person);
         if ($this->person)
             $this->person->refresh();
-        $this->emit('requisitionUpdated');
+
+        if ($requisition) $this->emit('requisitionUpdated');
     }
 
     public function closeEditForm()
@@ -56,21 +57,17 @@ class Edit extends Component
         $this->person = null;
     }
 
-    public function deleteRequisition($requisition)
+    public function deleteRequisition(Requisition $requisition)
     {
         if (!$this->show)return;
         $requisition->delete();
         $this->person->refresh();
-//        dd($requisition);
         $this->emit("requisitionDeleted");
     }
 
-
     public function save()
     {
-        if ( ! ($this->person) ) return;
-        /*foreach($this->person->requisitions as $requisition)
-            $this->emit("save", $requisition->id);*/
+        if ( ! $this->person ) return;
         $this->person->update($this->state);
         $this->person->refresh();
         $this->state = $this->person->withoutRelations()->toArray();
@@ -81,12 +78,13 @@ class Edit extends Component
     public function mount()
     {
         $this->ranks = Person::$ranks;
+
         $this->types = [
-            Requisition::$PREPARATION=>"preparation_requisition",
-            Requisition::$MANAGEMENT =>"management_requisition"
+            Requisition::$PREPARATION => "preparation_requisition",
+            Requisition::$MANAGEMENT  => "management_requisition",
         ];
+
         $this->state = [];
-        //$this->openEditForm(Person::first());
     }
 
     public function render()
