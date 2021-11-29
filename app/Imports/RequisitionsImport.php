@@ -28,8 +28,6 @@ class RequisitionsImport implements ToModel,WithHeadingRow,WithStartRow
         $personCreator = app()->make(CreatePerson::class);
         $requisitionCreator = app()->make(CreateRequisition::class);
 
-        //dd( $row["tarykh_alarsaly"] );
-
         $data = [
             'first_name'       => $row['alasm'],
             'last_name'        => $row['allkb'],
@@ -46,7 +44,7 @@ class RequisitionsImport implements ToModel,WithHeadingRow,WithStartRow
             'authorized_tasks' => $row['almham_almokl_alyh'],
             'expeditor'        => $row["algh_almrsl"],
             'invoice_number'   => $row["rkm_alarsaly"],
-            //'invoice_date'     => $row["tarykh_alarsaly"],
+            'invoice_date'     => $row["tarykh_alarsaly"],
         ];
 
         $person = $personCreator->create($data);

@@ -37,9 +37,10 @@ class Edit extends Component
             "destination" => "",
             "authorized_tasks" => "",
             "person_id" => "",
+            "expeditor" => "",
+            "invoice_number" => "",
+            "invoice_date" => "",
         ];
-
-//        $this->emit("requisitionUpdated",$this->id);
     }
 
     public function mount(Requisition $requisition)

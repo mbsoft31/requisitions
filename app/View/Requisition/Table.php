@@ -11,8 +11,15 @@ use Livewire\WithPagination;
 class Table extends Component
 {
     use WithPagination;
+
+    protected $queryString = [
+        "search" => ["except" => ''],
+    ];
+
     public $search = '';
+
     public $columns = ['first_name','last_name','birth_place','birthdate','commission'];
+
     protected $listeners = [
         "personUpdated" => '$refresh',
         "personCreated" => '$refresh',
