@@ -18,9 +18,6 @@
                     <div class="flex flex-col divide-y">
 
                         <div class="grid grid-cols-12 gap-x-4 gap-y-6 px-6 py-6">
-
-
-
                             <div class="col-span-6 space-y-2">
                                 <label class="block font-semibold">
                                     {{ __('اللقب') }}
@@ -95,15 +92,6 @@
                         </div>
                     </div>
                 @endisset
-{{--                @isset($person)--}}
-{{--                    <div>--}}
-{{--                        <div class="px-6 flex flex-col">--}}
-{{--                            @foreach($person->requisitions as $requisition)--}}
-{{--                                @livewire("requisition.edit", ["requisition" => $requisition])--}}
-{{--                            @endforeach--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                @endisset--}}
             </main>
 
             <footer class="flex items-center justify-end px-6 py-4 bg-gray-50">

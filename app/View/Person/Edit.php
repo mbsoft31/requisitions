@@ -59,19 +59,14 @@ class Edit extends Component
     public function deleteRequisition(Requisition $requisition)
     {
         if (!$this->show)return;
-//        dd($requisition);
         $requisition->delete();
         $this->person->refresh();
-//        dd($requisition);
         $this->emit("requisitionDeleted");
     }
 
-
     public function save()
     {
-        if ( ! ($this->person) ) return;
-        /*foreach($this->person->requisitions as $requisition)
-            $this->emit("save", $requisition->id);*/
+        if ( ! $this->person ) return;
         $this->person->update($this->state);
         $this->person->refresh();
         $this->state = $this->person->withoutRelations()->toArray();
@@ -82,12 +77,13 @@ class Edit extends Component
     public function mount()
     {
         $this->ranks = Person::$ranks;
+
         $this->types = [
-            Requisition::$PREPARATION=>"preparation_requisition",
-            Requisition::$MANAGEMENT =>"management_requisition"
+            Requisition::$PREPARATION => "preparation_requisition",
+            Requisition::$MANAGEMENT  => "management_requisition",
         ];
+
         $this->state = [];
-        //$this->openEditForm(Person::first());
     }
 
     public function render()

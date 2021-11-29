@@ -152,9 +152,11 @@
                                             <button wire:click="$emit('openEditForm', {{$person}})" type="button" href="#" class="inline-block px-3 py-1 text-green-600 bg-green-100 border border-green-300 rounded-lg hover:bg-green-200 hover:text-green-900 hover:border-green-600">
                                                 نعديل
                                             </button>
-                                            <button wire:click="$emit('openDeleteConfirmation', {{$person}})" type="button" href="#" class="inline-block px-3 py-1 text-red-600 bg-red-100 border border-red-300 rounded-lg hover:bg-red-200 hover:text-red-900 hover:border-red-600">
-                                                حذف
-                                            </button>
+                                            @can("delete person")
+                                                <button wire:click="$emit('openDeleteConfirmation', {{$person}})" type="button" href="#" class="inline-block px-3 py-1 text-red-600 bg-red-100 border border-red-300 rounded-lg hover:bg-red-200 hover:text-red-900 hover:border-red-600">
+                                                    حذف
+                                                </button>
+                                            @endcan
                                         </td>
                                     </tr>
                                 @empty

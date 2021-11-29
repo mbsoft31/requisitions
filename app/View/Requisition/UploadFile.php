@@ -5,25 +5,31 @@ namespace App\View\Requisition;
 use App\Imports\RequisitionsImport;
 use App\Models\Person;
 use App\Models\Requisition;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Maatwebsite\Excel\Facades\Excel;
 
 class UploadFile extends Component
 {
+
     use WithFileUploads;
+
     protected $listeners = [
-        'openUploadForm'=>'openUploadForm',
+        'openUploadForm' => 'openUploadForm',
     ];
-//    use WithFileUploads;
-    public $show = false;
+
+    public bool $show = false;
     public $file = null;
-    public $fileCount = 0;
+    public int $fileCount = 0;
 
     public function openUploadForm()
     {
         $this->show = true;
     }
+
     public function closeUploadForm()
     {
         $this->show = false;
@@ -32,7 +38,7 @@ class UploadFile extends Component
 
     public function clearFile()
     {
-        $this->file = null ;
+        $this->file = null;
     }
 
     public function save()
@@ -44,11 +50,11 @@ class UploadFile extends Component
     {
         Excel::import(new RequisitionsImport, $this->file);
         $this->fileCount = RequisitionsImport::$count;
-        RequisitionsImport::$count = 0 ;
+        RequisitionsImport::$count = 0;
         $this->emit('personCreated');
     }
 
-    public function render()
+    public function render(): Factory|View|Application
     {
         return view('requisition.upload-file');
     }

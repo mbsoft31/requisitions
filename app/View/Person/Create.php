@@ -16,7 +16,7 @@ class Create extends Component
         "closeCreateForm" => "closeCreateForm",
         "requisitionUpdated" => '$refresh',
         "addRequisition" => 'addRequisition',
-        'deleteRequisition'=>'deleteRequisition',
+        'deleteRequisition'=> 'deleteRequisition',
         "requisitionDeleted" => '$refresh',
         'saved'=>'$refresh'
     ];
@@ -49,27 +49,28 @@ class Create extends Component
             "commission" => "",
         ];
         $this->requisitions = [
-            Requisition::$PREPARATION=>null,
-            Requisition::$MANAGEMENT=>null
+            Requisition::$PREPARATION => null,
+            Requisition::$MANAGEMENT => null
         ];
     }
+
     public function addRequisition($inputs)
     {
-        $this->requisitions[$inputs['type']] = new Requisition($inputs);
+        $this->requisitions[ $inputs['type'] ] = new Requisition($inputs);
     }
 
     public function deleteRequisition($requisition)
     {
-        if (!$this->show)return;
+        if ( ! $this->show ) return;
         $this->requisitions[$requisition['type']] = null ;
-//        $this->emit("requisitionDeleted");
     }
+
     public function store(CreatePerson $creator,CreateRequisition $requisitionCreator)
     {
         $this->person = $creator->create($this->state);
-        foreach ($this->requisitions as $type=>$requisition) {
+        foreach ($this->requisitions as $type => $requisition) {
             if ($requisition)
-                $requisitionCreator->create($requisition,$type , $this->person);
+                $requisitionCreator->create($requisition, $type, $this->person);
         }
         $this->emit('personCreated');
         $this->closeCreateForm();
@@ -79,9 +80,10 @@ class Create extends Component
     {
         $this->ranks = Person::$ranks;
         $this->types = [
-            Requisition::$PREPARATION=>"preparation_requisition",
-            Requisition::$MANAGEMENT =>"management_requisition"
+            Requisition::$PREPARATION => "preparation_requisition",
+            Requisition::$MANAGEMENT  => "management_requisition",
         ];
+
         $this->state = [
             "first_name" => "",
             "last_name" => "",
@@ -92,9 +94,10 @@ class Create extends Component
             "rank" => "",
             "commission" => "",
         ];
+
         $this->requisitions = [
-            Requisition::$PREPARATION=>null,
-            Requisition::$MANAGEMENT=>null
+            Requisition::$PREPARATION => null,
+            Requisition::$MANAGEMENT => null,
         ];
     }
 

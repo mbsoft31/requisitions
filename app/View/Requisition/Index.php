@@ -1,95 +1,63 @@
 <?php
 
 namespace App\View\Requisition;
+use App\Actions\Requisition\PrintRequisitionAction;
+use App\Contracts\Requisition\PrintRequisition;
 use App\Exports\RequisitionsExport;
 use App\Models\Person;
 use App\Models\Requisition;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use Livewire\Component;
-use Livewire\WithPagination;
 use Maatwebsite\Excel\Facades\Excel;
+use PhpOffice\PhpWord\Exception\CopyFileException;
+use PhpOffice\PhpWord\Exception\CreateTemporaryFileException;
 use PhpOffice\PhpWord\TemplateProcessor;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class Index extends Component
 {
+
     protected $listeners = [
         'exportAllToExcel'=>'exportAllToExcel',
-        "downloadDocument"=>"downloadDocuments",
-//        'importAllFromExcel'=>'exportAllToExcel',
-//        'exportRequisition'=>'exportRequisition',
-
+        "downloadDocument" => "downloadDocument",
+        "downloadManyDocuments" => "downloadManyDocuments"
     ];
 
-    public function exportAllToExcel()
+    public function exportAllToExcel(): ?BinaryFileResponse
     {
-        if(Auth::user()->cannot('export/import')) return ;
+        if( Auth::user()->cannot('export/import') ) return null;
+
         return Excel::download(new RequisitionsExport,'users.xlsx');
     }
 
     /**
-     * @throws \PhpOffice\PhpWord\Exception\CopyFileException
-     * @throws \PhpOffice\PhpWord\Exception\CreateTemporaryFileException
+     * @throws CopyFileException
+     * @throws CreateTemporaryFileException
      */
-    public function downloadDocument(Requisition $requisition)
+    public function downloadDocument(Requisition $requisition): BinaryFileResponse
     {
-        dd($requisition);
-        if(Auth::user()->cannot('export/import')) abort(403);
+        /** @var PrintRequisition $printer */
+        $printer = App::make(PrintRequisition::class);
 
-        if(!$requisition) abort(404);
+        $document = $printer->downloadDocument($requisition);
 
-        $replacement = $this->formatRequisition($requisition);
-
-        $templateProcessor = new TemplateProcessor(public_path('templates/req_template.docx'));
-
-        $templateProcessor->setValues($replacement);
-        $file_path = storage_path('outputs/' .
-            $requisition->person->user_id .
-            '/req_output' .
-            str_replace(' ', '_', $requisition->person->full_name) .
-            '.docx');
-
-        $templateProcessor->saveAs($file_path);
-
-        $requisition->is_printed = true;
-        $requisition->number = $replacement['id'];
-        $requisition->save();
-
-        return response()->download($file_path);
+        return $document;
     }
 
-    public function downloadManyDocuments(array $requisitions = [])
+    public function downloadManyDocuments($requisitions)
     {
-        if (!$requisitions or count($requisitions) <= 0) abort(404);
+        /** @var PrintRequisition $printer */
+        $printer = App::make(PrintRequisition::class);
 
-        $replacements = [];
-
-        foreach ($requisitions as $requisition) {
-            $replacements[] = $this->formatRequisition($requisition);
-        }
-
-
-    }
-
-    public function formatRequisition(Requisition $requisition) : array
-    {
-        $number = Requisition::whereNotNull('number')->max('number')?->number ?? 0;
-        return [
-            "id" => $requisition->number ?? ++$number,
-            "requisition_date" => Carbon::now()->format('Y-m-d'),
-            "full_name" => $requisition->person->first_name. ' ' . $requisition->person->last_name,
-            "type" => Requisition::$types[$requisition->type],
-            "rank" => Person::$ranks[$requisition->person->rank],
-            "category" => Person::$classes[$requisition->person->rank],
-            "user_id" => $requisition->person->user_id,
-        ];
+        return $printer->downloadManyDocuments($requisitions);
     }
 
     /**
-     * @throws \PhpOffice\PhpWord\Exception\CopyFileException
-     * @throws \PhpOffice\PhpWord\Exception\CreateTemporaryFileException
+     * @throws CopyFileException
+     * @throws CreateTemporaryFileException
      */
     public function downloadDocuments(array $requisitionsIds = null)
     {
@@ -128,4 +96,5 @@ class Index extends Component
     {
         return view('requisition.index');
     }
+
 }

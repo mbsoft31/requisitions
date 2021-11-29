@@ -9,8 +9,9 @@ use Livewire\Component;
 class Delete extends Component
 {
     protected $listeners = [
-        'openDeleteConfirmation'=>'openDeleteConfirmation'
+        'openDeleteConfirmation' => 'openDeleteConfirmation'
     ];
+
     public $show = false ;
     public $person ;
 
@@ -19,6 +20,7 @@ class Delete extends Component
         $this->show = true ;
         $this->person = $person ;
     }
+
     public function closeDeleteConfirmation()
     {
         $this->show = false ;
@@ -33,7 +35,6 @@ class Delete extends Component
         $this->closeDeleteConfirmation();
         $this->emit('personDeleted');
     }
-
 
     public function render()
     {

@@ -2,18 +2,18 @@
 
 namespace App\View\Requisition;
 
+use App\Contracts\Requisition\PrintRequisition;
 use App\Models\Person;
 use App\Models\Requisition;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\App;
 use Livewire\Component;
-use PhpOffice\PhpWord\TemplateProcessor;
 
 class PrintFile extends Component
 {
     protected $listeners = [
         'openPrintForm'=>'openPrintForm',
     ];
-//    use WithFileUploads;
+
     public $show = false;
     public $commissions;
     public $commission;
@@ -23,8 +23,8 @@ class PrintFile extends Component
         $this->commissions = Person::select('commission')->distinct()->pluck('commission');
         $this->commission = $this->commissions->first();
         $this->show = $show;
-
     }
+
     public function closePrintForm()
     {
         $this->show = false;
@@ -35,9 +35,19 @@ class PrintFile extends Component
         $reqs = Requisition::whereHas('person', function($q){
             $q->where('commission', $this->commission);
         })->get();
-        $requisitionsIds = ($this->commission==='all')?null:$reqs->pluck('id');
-        $this->emit('downloadDocument',$requisitionsIds);
-        $this->closePrintForm();
+        $requisitionsIds = ($this->commission === 'all') ? null : $reqs->pluck('id')->toArray();
+
+        return $this->downloadManyDocuments($requisitionsIds);
+    }
+
+    public function downloadManyDocuments($requisitions)
+    {
+        /** @var PrintRequisition $printer */
+        $printer = App::make(PrintRequisition::class);
+
+        $reqs = Requisition::find($requisitions);
+
+        return $printer->downloadManyDocuments($reqs);
     }
 
     public function mount()
