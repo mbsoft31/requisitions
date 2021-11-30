@@ -33,7 +33,7 @@ class RequisitionsImport implements ToModel,WithHeadingRow,WithStartRow
             'last_name'        => $row['allkb'],
             'birthdate'        => $row['tarykh_almylad'],
             'birth_place'      => $row['mkan_almylad'],
-            'rank'             => array_search($row['alrtb'],Person::$ranks),
+            'rank'             => $row['alrtb'],
             'commission'       => $row['alhyy_almstkhdm'],
             'original_job'     => $row['alothyf_alasly'],
             'requisition_date' => $row['tarykh_altskhyr'],

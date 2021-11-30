@@ -30,9 +30,7 @@ class Index extends Component
     {
         if( Auth::user()->cannot('export/import') ) return null;
 
-        dd("test");
-
-        //return Excel::download(new RequisitionsExport,'users.xlsx');
+        return Excel::download(new RequisitionsExport,'users.xlsx');
     }
 
     /**
@@ -43,7 +41,7 @@ class Index extends Component
     {
         /** @var PrintRequisition $printer */
         $printer = App::make(PrintRequisition::class);
-
+//        dd($requisition);
         $document = $printer->downloadDocument($requisition);
 
         return $document;

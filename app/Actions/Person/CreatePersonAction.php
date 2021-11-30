@@ -36,14 +36,13 @@ class CreatePersonAction implements CreatePerson {
         }catch (ValidationException $exception){
             dd($exception->errors());
         }
-
-        foreach ($inputs as $key => $value){
+        foreach ($validated_data as $key => $value){
             if (is_string($value)) {
                 $inputs[$key] = trim(preg_replace('/\s\s+/', ' ', str_replace("\n", " ", $value)));;
             }
         }
         return Person::updateOrCreate(
-            ['first_name'=>$inputs['first_name'],'last_name'=>$inputs['last_name']],
+            ['first_name'=>$validated_data['first_name'],'last_name'=>$validated_data['last_name']],
             array_merge($validated_data, ["user_id" => Auth::id()])
         );
     }
