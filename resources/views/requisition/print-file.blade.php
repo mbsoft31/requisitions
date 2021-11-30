@@ -1,5 +1,5 @@
 <div x-data >
-    <div x-show='$wire.show' class="fixed right-0 inset-y-0 w-full bg-black bg-opacity-25">
+    <div x-show='$wire.show' class="fixed right-0 z-50 inset-y-0 w-full bg-black bg-opacity-25">
         <div class="flex flex-col w-full h-full max-w-3xl bg-white">
             <header class="bg-gray-50 rounded-t-lg overflow-hidden">
 

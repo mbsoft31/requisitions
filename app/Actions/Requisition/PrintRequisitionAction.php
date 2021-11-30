@@ -43,7 +43,7 @@ class PrintRequisitionAction implements PrintRequisition
     {
         $number = Requisition::whereNotNull('number')->get()->max('number');
         return [
-            "id" => $requisition->number ?? ++$number,
+            "id" => sprintf("%04d", $requisition->number ?? ++$number),
             "requisition_date" => Carbon::now()->format('Y-m-d'),
             "full_name" => $requisition->person->first_name. ' ' . $requisition->person->last_name,
             "type" => Requisition::$types[$requisition->type],

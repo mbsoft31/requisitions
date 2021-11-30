@@ -11,8 +11,15 @@ use Livewire\WithPagination;
 class Table extends Component
 {
     use WithPagination;
+
     public $search = '';
-    public $columns = ['first_name','last_name','birth_place','birthdate','commission'];
+
+    protected $queryString = [
+        'search' => ['except' => ''],
+    ];
+
+    public $columns = ['id', 'first_name','last_name'];
+
     protected $listeners = [
         "personUpdated" => '$refresh',
         "personCreated" => '$refresh',
@@ -20,6 +27,14 @@ class Table extends Component
         "requisitionUpdated" => '$refresh',
         "requisitionDeleted" => '$refresh',
     ];
+
+    public function updatedSearch($value)
+    {
+        $this->page = 1;
+        $this->render();
+        /*if (Auth::id() == 1)
+            dd($value, $this->page);*/
+    }
 
     public function deleteRequisition(Requisition $requisition)
     {
@@ -31,13 +46,15 @@ class Table extends Component
     public function render()
     {
         $query = Person::query();
-        if (Auth::user()->cannot('manage requisitions'))
+
+        if ( Auth::user()->cannot('manage requisitions') )
             $query->where('user_id', Auth::id());
-        if (strlen($this->search)>2){
-            foreach($this->columns as $column){
-                $query->orWhere($column, 'LIKE', '%' . $this->search . '%');
-            }
+        if (strlen($this->search)>0){
+            $query->orWhere('id', 'LIKE', '%' . $this->search . '%')
+                ->orWhere('first_name', 'LIKE', '%' . $this->search . '%')
+                ->orWhere('last_name', 'LIKE', '%' . $this->search . '%');
         }
+
         return view('requisition.table', ["requisitions" => $query->paginate(5)]);
     }
 }

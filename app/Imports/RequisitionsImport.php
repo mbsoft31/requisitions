@@ -35,7 +35,8 @@ class RequisitionsImport implements ToModel,WithHeadingRow,WithStartRow
             'last_name'        => $row['allkb'],
             'birthdate'        => $row['tarykh_almylad'],
             'birth_place'      => $row['mkan_almylad'],
-            'rank'             => array_search($row['alrtb'],Person::$ranks),
+            'rank'             => $row['alrtb'],
+//            'rank'             => array_search($row['alrtb'],Person::$ranks),
             'commission'       => $row['alhyy_almstkhdm'],
             'original_job'     => $row['alothyf_alasly'],
             'requisition_date' => $row['tarykh_altskhyr'],
@@ -46,7 +47,7 @@ class RequisitionsImport implements ToModel,WithHeadingRow,WithStartRow
             'authorized_tasks' => $row['almham_almokl_alyh'],
             'expeditor'        => $row["algh_almrsl"],
             'invoice_number'   => $row["rkm_alarsaly"],
-            //'invoice_date'     => $row["tarykh_alarsaly"],
+            'invoice_date'     => $row["tarykh_alarsaly"],
         ];
 
         $person = $personCreator->create($data);
@@ -64,7 +65,6 @@ class RequisitionsImport implements ToModel,WithHeadingRow,WithStartRow
             $requisitionCreator->create($requistionInputs,$type,$person);
             self::$count++;
         }
-
         return $person;
     }
 

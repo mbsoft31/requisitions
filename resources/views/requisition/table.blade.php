@@ -14,17 +14,12 @@
             </div>
 
             <div class="grid grid-cols-12 items-center gap-4 px-4 sm:px-6 py-4 ">
-                <div class="col-span-4 px-4 sm:px-6">
-
-                </div>
-                <div class="col-span-4 px-4 sm:px-6">
-
+                <div class="col-span-4">
                     <div>
                         <input wire:model.debounce.500ms="search" id="search" type="text" placeholder="{{ __('بحث') }}" class="w-full rounded-lg">
                     </div>
-
                 </div>
-                <div class="col-span-4">
+                <div class="col-span-8">
                     {{ $requisitions->links() }}
                 </div>
             </div>

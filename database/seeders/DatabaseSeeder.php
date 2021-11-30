@@ -51,5 +51,16 @@ class DatabaseSeeder extends Seeder
         $role->givePermissionTo('export/import');
 
         $user->assignRole("manager");
+
+        $user = User::factory()->create([
+            "name" => "hadi",
+            "email" => "hadi@mail.com",
+        ]);
+
+        $role = Role::create(["name" => "exporter"]);
+
+        $role->givePermissionTo('export/import');
+
+        $user->assignRole("exporter");
     }
 }

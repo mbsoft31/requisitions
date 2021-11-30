@@ -1,6 +1,6 @@
 <div x-data >
-    <div x-show='$wire.show' class="fixed right-0 inset-y-0 w-full bg-black bg-opacity-25">
-        <div class="flex flex-col w-full h-full max-w-3xl bg-white">
+    <div x-show='$wire.show' class="fixed z-50 right-0 inset-y-0 w-full bg-black bg-opacity-25">
+        <div class="z-50 flex flex-col w-full h-full max-w-3xl bg-white">
                 <header class="bg-gray-50 rounded-t-lg overflow-hidden">
 
                     <div class="flex items-center justify-between px-6 py-4 space-x-4">
