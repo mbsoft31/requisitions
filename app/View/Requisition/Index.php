@@ -41,7 +41,7 @@ class Index extends Component
     {
         /** @var PrintRequisition $printer */
         $printer = App::make(PrintRequisition::class);
-
+//        dd($requisition);
         $document = $printer->downloadDocument($requisition);
 
         return $document;

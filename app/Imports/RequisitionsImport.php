@@ -28,15 +28,12 @@ class RequisitionsImport implements ToModel,WithHeadingRow,WithStartRow
         $personCreator = app()->make(CreatePerson::class);
         $requisitionCreator = app()->make(CreateRequisition::class);
 
-        //dd( $row["tarykh_alarsaly"] );
-
         $data = [
             'first_name'       => $row['alasm'],
             'last_name'        => $row['allkb'],
             'birthdate'        => $row['tarykh_almylad'],
             'birth_place'      => $row['mkan_almylad'],
             'rank'             => $row['alrtb'],
-//            'rank'             => array_search($row['alrtb'],Person::$ranks),
             'commission'       => $row['alhyy_almstkhdm'],
             'original_job'     => $row['alothyf_alasly'],
             'requisition_date' => $row['tarykh_altskhyr'],
@@ -65,6 +62,7 @@ class RequisitionsImport implements ToModel,WithHeadingRow,WithStartRow
             $requisitionCreator->create($requistionInputs,$type,$person);
             self::$count++;
         }
+
         return $person;
     }
 

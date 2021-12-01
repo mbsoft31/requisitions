@@ -67,7 +67,7 @@ class RequisitionsExport implements
             $row->person->birthdate,
             $row->person->location_of_birth,
             $row->person->birth_place,
-            Person::$ranks[$row->person->rank],
+            $row->person->rank,
             $row->person->commission,
             Person::$classes[$row->person->rank],
             Requisition::$types[$row->type],

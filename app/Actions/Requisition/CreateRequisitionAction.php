@@ -43,7 +43,12 @@ class CreateRequisitionAction implements CreateRequisition{
         if ($person->$type_string)
             return null;
 
-        $validated_data = Validator::make($inputs, $this->rules)->validate();
+        try {
+            $validated_data = Validator::make($inputs, $this->rules)->validate();
+        }catch(ValidationException $exception)
+        {
+            dd($exception->errors());
+        }
 
         return $person->requisitions()->create(array_merge($validated_data, [
             "type" => $type,

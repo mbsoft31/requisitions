@@ -2,14 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Contracts\Person\CreatePerson;
-use App\Contracts\Requisition\CreateRequisition;
-use App\Models\Person;
-use App\Models\Requisition;
-use App\Models\User;
 use Carbon\Carbon;
-use Illuminate\Contracts\Container\BindingResolutionException;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use PhpOffice\PhpWord\TemplateProcessor;
 use Tests\TestCase;
 
