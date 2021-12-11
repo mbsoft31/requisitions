@@ -15,8 +15,8 @@ class Create extends Component
         $this->type = $type;
         $this->state = [
             "type" => $type,
-            "destination" => "",
-            "authorized_tasks" => "",
+            "destination" => "المندوبية الولائية",
+            "authorized_tasks" => "/",
         ];
     }
 

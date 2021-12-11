@@ -26,7 +26,7 @@ class CreateRequisitionsTable extends Migration
             $table->date('invoice_date');
 
             $table->unsignedBigInteger('printed_by')->nullable();
-            $table->boolean('number')->nullable()->unique();
+            $table->unsignedBigInteger('number')->nullable()->unique();
             $table->foreignId('person_id')->onDelete('cascade');
 
             $table->unique(['type', 'person_id']);

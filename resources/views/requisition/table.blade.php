@@ -6,9 +6,23 @@
                     <h1 class="text-2xl font-semibold tracking-wide text-gray-900">
                         {{ __('قائمة التسخيرات') }}
                     </h1>
+                    <div class="space-y-2 px-4">
+                        <label class="block font-semibold">
+                            {{ __('فرز حسب') }}
+                        </label>
+                        <select wire:model="commission" id="commission" class="w-full rounded-md">
+                            <option value="0">الكل</option>
+                            @foreach($commissions as $key => $value)
+                                <option value="{{$value}}">{{ $value }}</option>
+                            @endforeach
+                        </select>
+
+                    </div>
                     <button wire:click="$emit('openCreateForm')" x-key class="px-4 py-2 text-gray-50 bg-green-600 rounded-md hover:text-white hover:bg-green-700">
                         {{ __('إضافة مسخر جديد') }}
                     </button>
+
+
 
                 </div>
             </div>

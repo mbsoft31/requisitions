@@ -24,7 +24,7 @@ class UploadFile extends Component
     public bool $show = false;
     public $file = null;
     public int $fileCount = 0;
-
+    public $oldPeple = [];
     public function openUploadForm()
     {
         $this->show = true;
@@ -49,6 +49,7 @@ class UploadFile extends Component
     public function updatedFile()
     {
         Excel::import(new RequisitionsImport, $this->file);
+        $this->oldPeple = RequisitionsImport::$oldPeople;
         $this->fileCount = RequisitionsImport::$count;
         RequisitionsImport::$count = 0;
         $this->emit('personCreated');

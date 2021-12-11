@@ -90,11 +90,11 @@ class Create extends Component
             "first_name" => "",
             "last_name" => "",
             "birth_place" => "",
-            "original_job" => "",
+            "original_job" => "مسخر",
             "requisition_date" => '2021-11-20',
             "birthdate" => '1980-01-01',
-            "rank" => "",
-            "commission" => "",
+            "rank" => 12,
+            "commission" => "المندوبية الولائية",
         ];
 
         $this->requisitions = [

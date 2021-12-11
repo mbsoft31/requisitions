@@ -16,6 +16,7 @@ class RequisitionsImport implements ToModel,WithHeadingRow,WithStartRow
 {
 
     public static $count = 0 ;
+    public static array $oldPeople;
 
     /**
     * @param array $row
@@ -31,12 +32,12 @@ class RequisitionsImport implements ToModel,WithHeadingRow,WithStartRow
         $data = [
             'first_name'       => $row['alasm'],
             'last_name'        => $row['allkb'],
-            'birthdate'        => $row['tarykh_almylad'],
-            'birth_place'      => $row['mkan_almylad'],
+            'birthdate'        => "1980-01-01",
+            'birth_place'      => "/",
             'rank'             => $row['alrtb'],
             'commission'       => $row['alhyy_almstkhdm'],
             'original_job'     => $row['alothyf_alasly'],
-            'requisition_date' => $row['tarykh_altskhyr'],
+            'requisition_date' => "2021-11-20",
         ];
 
         $requistionInputs=[
@@ -44,8 +45,14 @@ class RequisitionsImport implements ToModel,WithHeadingRow,WithStartRow
             'authorized_tasks' => $row['almham_almokl_alyh'],
             'expeditor'        => $row["algh_almrsl"],
             'invoice_number'   => $row["rkm_alarsaly"],
-            'invoice_date'     => $row["tarykh_alarsaly"],
+            'invoice_date'     => "2021-01-01",
         ];
+        // if the person exists in the database .
+        $person = Person::where('first_name',$data['first_name'])
+            ->where('last_name',$data['last_name'])->first();
+        if ($person) {
+            self::$oldPeople[] = $person;
+        }
 
         $person = $personCreator->create($data);
         $type = -1 ;

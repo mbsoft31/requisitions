@@ -8,8 +8,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Person extends Model
 {
-    use HasFactory;
-
     public static $ranks = [
         1 => 1,
         2 => 2,
@@ -30,13 +28,15 @@ class Person extends Model
         17 => 17,
         18 => 18,
         19 => 19,
-        20 => 20,
-        21 => "وظيفة سامية",
+        20 => "امين لجنة مراجعة القوائم الإنتخابية",
+        21 => "وظيفة عليا",
         22 => "عضو لجنة إنتخابية بلدية",
         23 => "رئيس لجنة إنتخابية بلدية",
         24 => "عضو لجنة مراجعة القوائم الإنتخابية",
         25 => "رئيس لجنة مراجعة القوائم الإنتخابية",
     ];
+
+    use HasFactory;
     public static $classes = [
         1 => 'الأول',
         2 => 'الأول',

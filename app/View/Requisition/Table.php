@@ -13,6 +13,8 @@ class Table extends Component
     use WithPagination;
     public $search = '';
     public $columns = ['first_name','last_name','birth_place','birthdate','commission'];
+    public $commissions;
+    public $commission;
     protected $listeners = [
         "personUpdated" => '$refresh',
         "personCreated" => '$refresh',
@@ -37,8 +39,14 @@ class Table extends Component
         $this->emit('requisitionDeleted');
     }
 
+    public function mount()
+    {
+        $this->commission = 0;
+    }
+
     public function render()
     {
+        $this->commissions = Person::select('commission')->distinct()->pluck('commission');
         $query = Person::query();
         if (Auth::user()->cannot('manage requisitions'))
             $query->where('user_id', Auth::id());
@@ -47,6 +55,9 @@ class Table extends Component
                 $query->orWhere($column, 'LIKE', '%' . $this->search . '%');
             }
         }
-        return view('requisition.table', ["requisitions" => $query->paginate(5)]);
+        if ($this->commission != 0) {
+            $query->where('commission', $this->commission);
+        }
+        return view('requisition.table', ["requisitions" => $query->paginate(6)]);
     }
 }

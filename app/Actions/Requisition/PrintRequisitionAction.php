@@ -44,10 +44,10 @@ class PrintRequisitionAction implements PrintRequisition
         $number = Requisition::whereNotNull('number')->get()->max('number');
         return [
             "id" => sprintf("%04d", $requisition->number ?? ++$number),
-            "requisition_date" => Carbon::now()->format('Y-m-d'),
+            "requisition_date" => "20-11-2021",
             "full_name" => $requisition->person->first_name. ' ' . $requisition->person->last_name,
             "type" => Requisition::$types[$requisition->type],
-            "rank" => Person::$ranks[$requisition->person->rank],
+            "rank" => Person::$ranks[$requisition->person->rank], // $requisition->authorized_tasks . " " . $requisition->person->original_job, //.
             "category" => Person::$classes[$requisition->person->rank],
             "user_id" => $requisition->person->user_id,
         ];

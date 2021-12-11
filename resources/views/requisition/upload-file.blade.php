@@ -68,6 +68,19 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="">
+                                    @foreach($oldPeple as $person)
+                                        <div class="flex justify-around">
+                                            <div class=""><span>الاسم :</span><span>{{$person->first_name}}</span></div>
+                                            <div class=""><span>اللفب :</span><span>{{$person->last_name}}</span></div>
+                                            <div class=""><span>الرتبة :</span><span>{{$person->rank}}</span></div>
+                                            <div class=""><span>الهيئة :</span><span>{{$person->commission}}</span></div>
+                                            <div class=""><span>التسخيرات :</span>
+                                                <span>{{($person->has_management?"تسيير":"")." , ".($person->HasPreparation?"تحضير":"")}}</span>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
                             </div>
                         @else
                             <div class="px-6 py-4  cursor-pointer " onclick="document.getElementById('selectFile').click();">

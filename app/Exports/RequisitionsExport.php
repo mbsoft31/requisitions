@@ -60,7 +60,7 @@ class RequisitionsExport implements
 //        dd($row->person);
         if (!$row->person) return [];
         $data = [
-            $row->id,
+            $row->number ?? $row->id,
             $row->person->requisition_date,
             $row->person->first_name,
             $row->person->last_name,

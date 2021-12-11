@@ -35,7 +35,7 @@ class PrintFile extends Component
         $reqs = Requisition::whereHas('person', function($q){
             $q->where('commission', $this->commission);
         })->get();
-        $requisitionsIds = ($this->commission === 'all') ? null : $reqs->pluck('id')->toArray();
+        $requisitionsIds = ($this->commission === 'all') ? Requisition::all()->pluck('id')->toArray() : $reqs->pluck('id')->toArray();
 
         return $this->downloadManyDocuments($requisitionsIds);
     }
